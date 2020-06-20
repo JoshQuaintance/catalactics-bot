@@ -116,4 +116,5 @@ client.on("guildMemberAdd", member => {
 		);
 	if (channel) channel.send(welcomeText);
 	if (!channel) console.log("Channel [bot-logs] is not found");
+	msg.author.send(rules);
 });

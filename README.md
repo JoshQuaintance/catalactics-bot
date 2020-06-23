@@ -6,7 +6,7 @@ Welcome to my GitHub repository for my Discord Bot. This bot is MIT Licensed, th
 
 You want to contribute on this Discord Bot, come along, let me tell you how:
 
-1. [Install the necessary softwares.](`#install-necessary-softwares`) (Important)
+1. [Install the necessary softwares.](#install-necessary-softwares) (Important)
 2. Fork this repository.
 
 ![forking](images/forking.png)
@@ -108,7 +108,7 @@ You can get your discord token through the discord portal in the `Bot` section o
 
 
    This is what the whole `.env` would look like without the comments: ![dotEnv File](images/.envFile.png)
-8. Open up a terminal in the folder. (If you are using VSCode, you can press `CTRL + ``Shortcut)
+8. Open up a terminal in the folder. (If you are using VSCode, you can press ``` CTRL + ` ``` Shortcut)
 9. Type the following command and hit enter:
 
 ```bash
@@ -132,7 +132,7 @@ That's all. The bot should log an embed with the time it was woken up and accoun
 | [discord.js](https://discord.js.org) | `^12.2.0` |
 | [dotenv](https://www.npmjs.com/package/dotenv) | `^8.2.0` |
 | [mongoose](https://mongoosejs.com/) | `^3.5.9` |
-| [mongodb](htpps://mongodb.com) | `^5.9.19` |
+| [mongodb](https://mongodb.com) | `^5.9.19` |
 
 ## Additional information
 

@@ -2,7 +2,6 @@ const Discord = require('discord.js');
 const client = new Discord.Client();
 const newMsg = require("../functions/newMsg.js");
 const generateFields = require("../functions/generateEmbedFields");
-const { prefix } = require("../config.json");
 
 module.exports = {
     prefix: "ping",

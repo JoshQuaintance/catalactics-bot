@@ -4,20 +4,38 @@ const newMsg         = require("./functions/newMsg.js");
 const generateFields = require("./functions/generateEmbedFields");
 const logCommand     = require("./functions/logCalledCommand.js");
 const cmdNotFound    = require("./functions/notFound.js");
-const { prefix }     = require("./config.json");
 const wakeUpTime     = require("./functions/getWakeTime");
 
 const fs = require("fs");
 const cl = (...args) => args.forEach(c => console.log(c));
 
 // Grabs Bot Token from .env file
-const dotenv = require("dotenv");
-dotenv.config({ path: ".env" });
-const token = process.env.DISCORD_TOKEN;
+const settings = require("./functions/get-settings.js");
+const token    = settings.TOKEN;
+const prefix   = settings.PREFIX;
+const mongoose = require("mongoose");
+const URI      = settings.MONGO_URI;
+const botLogCh = settings.BOT_LOG_CHANNEL;
+
+const memberHasPerm = require("./functions/memberHasPerm.js");
+// const server   = new mongoose.Schema({
+// 	serverName: client.guilds.cache.name
+// })
+const roleSchema =  new mongoose.Schema({
+	serverName: {type: String, required: true},
+	roleName: {type: String, required: true},
+	roleId  : {type: String, required: true},
+	desc    : String,
+});
+module.exports = {
+	roleSchema: roleSchema
+	// role: Role
+};
 // ----
+
 client.login(token);
 
-client.on("ready", () => {
+client.once("ready", () => {
 	const startTime = wakeUpTime();
 
 	cl(`Logged in as ${client.user.tag}`);
@@ -27,7 +45,10 @@ client.on("ready", () => {
 		.addField("Online", `Today at ${startTime}`)
 		.setFooter("Listening for commands");
 
-	client.channels.fetch("721766876916482078").then(ch => ch.send(msg));
+	let loggingCh = client.channels.cache.find(ch => ch.name == botLogCh);
+	loggingCh.send(msg);
+	getAllRoles();
+	// client.guilds.cache.forEach(guild => console.log(guild));
 });
 
 /**
@@ -37,10 +58,12 @@ const uptime = require("./cmd/uptime.js");
 const ping   = require("./cmd/ping.js");
 const roles  = require("./cmd/roles.js");
 const about  = require("./cmd/about.js");
+const role   = require("./cmd/role.js");
 
-let commandList = [ ping, roles, about, uptime ];
+let commandList = [ ping, roles, about, uptime, role ];
 client.on("message", msg => {
-	let x = client.channels.fetch("721766876916482078");
+	
+	let x = client.channels.cache.find(ch => ch.name == "command-logs");
 	if (msg.content.startsWith(prefix)) {
 		for (var cmd of commandList) {
 			var startsWith = x => msg.content.startsWith(x);
@@ -58,16 +81,25 @@ client.on("message", msg => {
 
 		if (cmdRun !== cmd.prefix && !msg.author.bot) {
 			let closeTo = cmdNotFound(commandList, msg.content);
-			let field   = generateFields(
-				[ "Did you mean?", `\`${closeTo}\`` ],
-				[ "Get Commands", `You can always find commands available by using the \`${prefix}command\`.` ]
-			);
+			let field;
+
+			if(closeTo.length > 0)
+				field = generateFields(
+					[ "Did you mean?", `\`${closeTo}\`` ],
+					[ "Get Commands", `You can always find commands available by using the \`${prefix}command\`.` ]
+				);
+			else
+				field = generateFields(
+					[ "Get Commands", `You can always find commands available by using the \`${prefix}command\`.` ]
+				);
+			
 			let sryEmbed = newMsg(
 				"#eb4034",
 				"Command Not Found!",
 				`I'm sorry ${msg.author}, I cannot find a command with the prefix of \`${msg.content}\``,
 				field
 			);
+			
 			msg.channel.send(sryEmbed);
 		}
 	}
@@ -111,10 +143,61 @@ client.on("guildMemberAdd", member => {
 			{
 				name  : "Rule 2",
 				value :
-					"Please keep the discussions in it's appropriate channel. If it is considered as unrelatable to the channel, it can be deleted."
+					"Please keep the discussions in it's appropriate channel. If it is considered as not related to the channel, it can be deleted."
 			}
 		);
 	if (channel) channel.send(welcomeText);
 	if (!channel) console.log("Channel [bot-logs] is not found");
 	msg.author.send(rules);
 });
+
+function getAllRoles() {
+	client.guilds.cache.forEach(guild => {
+		guild.roles.cache.forEach(role => {
+			if(role.name == "@everyone") return;
+			
+			const Role = mongoose.model("Role", roleSchema, guild.name);
+
+			Role.findOne({roleId: role.id}, (err, data) => {
+
+				if(err || !data) {
+					const newRole = new Role({
+						serverName: guild.name,
+						roleName: role.name,
+						roleId: role.id,
+						desc: "No Description Added"
+					})
+
+					newRole.save(err => {
+						if(err) console.error(err);
+					})
+					
+				} else return;
+
+			});
+
+		});
+	});
+
+	// console.log("All roles added to the Database");
+}
+
+/*
+guild.roles.cache.forEach(role => {
+		Role.findOne({roleId: role.id}, (err, data) => {
+			if(err || !data) {
+				const newRole = new Role({
+					serverName: guild,
+					roleName  : roleName,
+					roleId    : roleId,
+					desc      : description
+				});
+
+				newRole.save(err => {
+					if (err) return console.log(err);
+				});
+
+				console.log("Roles added");
+			} else return;
+		});})
+*/

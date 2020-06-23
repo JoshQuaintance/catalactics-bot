@@ -1,13 +1,12 @@
-const Discord = require('discord.js');
-const client = new Discord.Client();
-const newMsg = require("../functions/newMsg.js");
+const Discord        = require('discord.js');
+const client         = new Discord.Client();
+const newMsg         = require("../functions/newMsg.js");
 const generateFields = require("../functions/generateEmbedFields");
-const { prefix } = require("../config.json");
 
 module.exports = {
-    prefix: "about",
+    prefix         : "about",
     additionalParam: null,
-    description: "Give the BOT a little description of itself. They deserve some too.",
+    description    : "Give the BOT a little description of itself. They deserve some too.",
     command(msg) {
         let moreField = generateFields(
             ["Who made me", "I was made by someone named Catalactics, He is the owner of this server"],

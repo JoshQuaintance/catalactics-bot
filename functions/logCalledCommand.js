@@ -5,6 +5,7 @@ const lastCalled = require('../data/lastCaller.json');
 function logCommand(msg, cmd, ch) {
         
     async function sendThem(channel){
+        
 
          let checks = lastCalled.author !== msg.author || lastCalled.author  == "";
          let checksX = lastCalled.prefix !== cmd.prefix || lastCalled.prefix == "";
@@ -20,7 +21,7 @@ function logCommand(msg, cmd, ch) {
              .setDescription(
              `Command: ${cmd.prefix}
              Called By: ${msg.author}
-             Called Times: ${lastCalled.times}`));
+             Called Times: ${lastCalled.times}`)).catch(err => console.error(err));
              lastCalled.id = sent.id;
          } else if (check2) {
              lastCalled.times++
@@ -30,12 +31,12 @@ function logCommand(msg, cmd, ch) {
              .setDescription(
              `Command: ${cmd.prefix}
              Called By: ${msg.author}
-             Called Times: ${lastCalled.times}`)))
+             Called Times: ${lastCalled.times}`))).catch(err => console.error(err));
          }
 
      }
 
-     ch.then(channel => sendThem(channel))
+    sendThem(ch);
 }
 
 module.exports = logCommand;

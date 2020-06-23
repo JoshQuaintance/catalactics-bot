@@ -1,5 +1,3 @@
-const { prefix } = require("discord.js");
-
 /**
  * Function run if no command is found
  * @param {String[]} command 

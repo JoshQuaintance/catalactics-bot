@@ -11,7 +11,7 @@ You want to contribute on this Discord Bot, come along, let me tell you how:
 
 ![forking](images/forking.png)
 
-3. Clone the forked repo to your local machine and cd to the directory. You can do so using this command in the git bash: `git clone https://github.com/Your-Username/catalactics-bot.git`. If you are using VSCode, you can use the Integrated terminal for this. Look at the full documentations for this.
+3. Clone the forked repo to your local machine and cd to the directory. You can do so using this command in the git bash: `git clone https://github.com/Your-Username/catalactics-bot`. If you are using VSCode, you can use the Integrated terminal for this. Look at the full documentations for this.
 
 ![Clone Gif](images/GitHubClone.gif)
 

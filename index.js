@@ -27,10 +27,7 @@ const roleSchema =  new mongoose.Schema({
 	roleId  : {type: String, required: true},
 	desc    : String,
 });
-module.exports = {
-	roleSchema: roleSchema
-	// role: Role
-};
+
 // ----
 
 client.login(token);
@@ -61,6 +58,12 @@ const about  = require("./cmd/about.js");
 const role   = require("./cmd/role.js");
 
 let commandList = [ ping, roles, about, uptime, role ];
+
+module.exports = {
+	roleSchema: roleSchema,
+	commandList: commandList
+};
+
 client.on("message", msg => {
 	
 	let x = client.channels.cache.find(ch => ch.name == "command-logs");
@@ -86,11 +89,11 @@ client.on("message", msg => {
 			if(closeTo.length > 0)
 				field = generateFields(
 					[ "Did you mean?", `\`${closeTo}\`` ],
-					[ "Get Commands", `You can always find commands available by using the \`${prefix}command\`.` ]
+					[ "Get Commands", `You can always find commands available by using the \`${prefix}commands\`.` ]
 				);
 			else
 				field = generateFields(
-					[ "Get Commands", `You can always find commands available by using the \`${prefix}command\`.` ]
+					[ "Get Commands", `You can always find commands available by using the \`${prefix}commands\`.` ]
 				);
 			
 			let sryEmbed = newMsg(

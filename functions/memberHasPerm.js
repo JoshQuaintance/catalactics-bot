@@ -1,17 +1,8 @@
-const mongoose = require("mongoose");
-const settings = require("./get-settings.js");
-const PREFIX   = settings.PREFIX;
-const URI      = settings.MONGO_URI;
-
-
-mongoose.connect(URI, { useNewUrlParser: true, useUnifiedTopology: true });
-// Schema for Roles and description.
-const main       = require("../index.js");
-const roleSchema = main.roleSchema;
+const { DiscordAPIError } = require("discord.js");
 
 /**
  * Function checking if the user have specific permission
- * @param {String} msg The msg object
+ * @param {Discord.Message} msg The msg object
  * @param {String} perm Permission String.
  */
 function memberHasPerm(msg, perm) {

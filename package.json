@@ -20,5 +20,9 @@
 		"mongodb": "^3.5.9",
 		"mongoose": "^5.9.19",
 		"request": "^2.88.2"
+	},
+	"devDependencies": {
+		"jest": "^26.1.0",
+		"editorconfig": "^0.15.3"
 	}
 }

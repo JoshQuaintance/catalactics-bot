@@ -2,6 +2,12 @@ const Discord = require('discord.js');
 const client = new Discord.Client();
 const lastCalled = require('../data/lastCaller.json');
 
+/**
+ * Function that will log all the commands that are called
+ * @param {Discord.Message} msg Discord Message Object
+ * @param {Object} cmd Cmd Object
+ * @param {Discord.Channel} ch Channel to log 
+ */
 function logCommand(msg, cmd, ch) {
         
     async function sendThem(channel){

@@ -1,7 +1,6 @@
-const dotenv = require("dotenv");
-dotenv.config({ path: "../.env" });
 const mongoose = require("mongoose");
-const URI = process.env.MONGO_URI;
+const settings = require("../../functions/get-settings.js");
+const URI = settings.MONGO_URI;
 const generateField = require("../generateEmbedFields.js");
 const newMsg = require("../newMsg");
 

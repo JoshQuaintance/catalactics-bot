@@ -1,4 +1,4 @@
-require('dotenv').config({ path: '../.env' });
+require('dotenv').config();
 
 module.exports = {
 	// This is the discord token for your BOT. Keep this a secret!!

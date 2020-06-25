@@ -1,7 +1,8 @@
-const dotenv = require("dotenv");
-dotenv.config({ path: "../.env" });
 const mongoose = require("mongoose");
-const URI = process.env.MONGO_URI;
+const settings = require("../functions/get-settings.js");
+const PREFIX   = settings.PREFIX;
+const URI      = settings.MONGO_URI;
+
 
 mongoose.connect(URI, { useNewUrlParser: true, useUnifiedTopology: true });
 // Schema for Roles and description.

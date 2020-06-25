@@ -13,7 +13,6 @@ mongoose.connect(URI, { useNewUrlParser: true, useUnifiedTopology: true });
 const roleSchema = main.roleSchema;
 
 //Functions
-const funcs = require("../functions/roleFunctions");
 const desc = require("../functions/roles/desc.js");
 const roleCheck = require("../functions/roles/roleCheck.js");
 const give = require("../functions/roles/give.js");

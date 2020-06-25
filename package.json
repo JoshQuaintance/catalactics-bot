@@ -10,7 +10,7 @@
 	"main": "index.js",
 	"scripts": {
 		"start": "node index",
-        "test": "jest --detectOpenHandles"
+        "test": "jest --passWithNoTests"
 	},
 	"keywords": [],
 	"license": "MIT",

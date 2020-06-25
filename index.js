@@ -50,7 +50,7 @@ client.once('ready', () => {
 });
 
 /**
- * Commands 
+ * Commands
  */
 const uptime = require('./cmd/uptime.js');
 const ping = require('./cmd/ping.js');
@@ -185,9 +185,7 @@ function getAllRoles() {
 				} else {
 					let num = 0;
 					role.members.forEach(member => {
-						if (guild.name == 'Dat Place to Go || Catalactics') {
-							if (member.user.username) num++;
-						}
+						if(member.user.username) num++;
 
 						data.userNum = num;
 					});

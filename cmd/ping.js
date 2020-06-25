@@ -14,7 +14,7 @@ module.exports = {
             );
 
         let pingTime = Math.round(pingMsg.createdTimestamp - msg.createdTimestamp);
-        let clr = pingTime < 100 ? "#21ed4a" : "#f02222";
+        let clr = pingTime - 10 < 100 ? "#21ed4a" : "#f02222";
         let newText = newMsg(clr, "Pinged!", `Ping: ${pingTime - 10}ms`, field);
 
         pingMsg.edit(newText);

@@ -22,12 +22,12 @@ const memberHasPerm = require('./functions/memberHasPerm.js');
 // 	serverName: client.guilds.cache.name
 // })
 const roleSchema = new mongoose.Schema({
-	serverName : { type: String, required: true },
-	roleName   : { type: String, required: true },
-	roleId     : { type: String, required: true },
-	rawPosition: Number,
-	userNum    : Number,
-	desc       : String
+	serverName  : { type: String, required: true },
+	roleName    : { type: String, required: true },
+	roleId      : { type: String, required: true },
+	rawPosition : Number,
+	userNum     : Number,
+	desc        : String
 });
 
 // ----
@@ -166,31 +166,31 @@ client.on('guildMemberAdd', member => {
 function getAllRoles() {
 	client.guilds.cache.forEach(guild => {
 		guild.roles.cache.forEach(role => {
-            // console.log(role.name, role.rawPosition);
+			// console.log(role.name, role.rawPosition);
 
-            if (role.name == '@everyone') return;
+			if (role.name == '@everyone') return;
 
 			const Role = mongoose.model('Role', roleSchema, guild.name);
 
 			Role.findOne({ roleId: role.id }, (err, data) => {
 				if (err || !data) {
 					const newRole = new Role({
-						serverName : guild.name,
-						roleName   : role.name,
-                        roleId     : role.id,
-                        rawPosition: role.rawPosition,
-						userNum    : 0,
-						desc       : 'No Description Added'
+						serverName  : guild.name,
+						roleName    : role.name,
+						roleId      : role.id,
+						rawPosition : role.rawPosition,
+						userNum     : 0,
+						desc        : 'No Description Added'
 					});
 
 					newRole.save(err => {
 						if (err) console.error(err);
 					});
 				} else {
-                    let num = 0;
-                    rawPosition = role.rawPosition;
+					let num = 0;
+					data.rawPosition = role.rawPosition;
 					role.members.forEach(member => {
-						if(member.user.username) num++;
+						if (member.user.username) num++;
 						data.userNum = num;
 					});
 					data.save(err => (err ? console.log(err) : undefined));

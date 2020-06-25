@@ -187,7 +187,8 @@ function getAllRoles() {
 						if (err) console.error(err);
 					});
 				} else {
-					let num = 0;
+                    let num = 0;
+                    rawPosition = role.rawPosition;
 					role.members.forEach(member => {
 						if(member.user.username) num++;
 						data.userNum = num;

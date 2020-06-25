@@ -23,9 +23,10 @@ const memberHasPerm = require("./functions/memberHasPerm.js");
 // })
 const roleSchema =  new mongoose.Schema({
 	serverName: {type: String, required: true},
-	roleName: {type: String, required: true},
-	roleId  : {type: String, required: true},
-	desc    : String,
+	roleName  : {type: String, required: true},
+	roleId    : {type: String, required: true},
+	userNum   : Number,
+	desc      : String,
 });
 
 // ----
@@ -33,6 +34,7 @@ const roleSchema =  new mongoose.Schema({
 client.login(token);
 
 client.once("ready", () => {
+	
 	const startTime = wakeUpTime();
 
 	cl(`Logged in as ${client.user.tag}`);
@@ -46,26 +48,30 @@ client.once("ready", () => {
 	loggingCh.send(msg);
 	getAllRoles();
 	// client.guilds.cache.forEach(guild => console.log(guild));
+	
 });
 
 /**
  * Commands 
  */
-const uptime = require("./cmd/uptime.js");
-const ping   = require("./cmd/ping.js");
-const roles  = require("./cmd/roles.js");
-const about  = require("./cmd/about.js");
-const role   = require("./cmd/role.js");
+const uptime   = require("./cmd/uptime.js");
+const ping     = require("./cmd/ping.js");
+const roles    = require("./cmd/roles.js");
+const about    = require("./cmd/about.js");
+const role     = require("./cmd/role.js");
+const commands = require("./cmd/commands");
+const stats    = require("./cmd/stats");
 
-let commandList = [ ping, roles, about, uptime, role ];
+let commandList = [ ping, roles, about, uptime, role, commands, stats ];
 
 module.exports = {
 	roleSchema: roleSchema,
-	commandList: commandList
+	commandList: [ ping, roles, about, uptime, role, commands ],
+	ex() {console.log(typeof this.commandList)}
 };
 
 client.on("message", msg => {
-	
+	if (msg.author.bot) return;
 	let x = client.channels.cache.find(ch => ch.name == "command-logs");
 	if (msg.content.startsWith(prefix)) {
 		for (var cmd of commandList) {
@@ -151,13 +157,17 @@ client.on("guildMemberAdd", member => {
 		);
 	if (channel) channel.send(welcomeText);
 	if (!channel) console.log("Channel [bot-logs] is not found");
-	msg.author.send(rules);
+	member.send(rules);
 });
+
+
 
 function getAllRoles() {
 	client.guilds.cache.forEach(guild => {
 		guild.roles.cache.forEach(role => {
 			if(role.name == "@everyone") return;
+			
+			
 			
 			const Role = mongoose.model("Role", roleSchema, guild.name);
 
@@ -166,21 +176,53 @@ function getAllRoles() {
 				if(err || !data) {
 					const newRole = new Role({
 						serverName: guild.name,
-						roleName: role.name,
-						roleId: role.id,
-						desc: "No Description Added"
+						roleName  : role.name,
+						roleId    : role.id,
+						userNum   : 0,
+						desc      : "No Description Added"
 					})
 
 					newRole.save(err => {
 						if(err) console.error(err);
 					})
 					
-				} else return;
+				} else {
+					let num = 0;
+					role.members.forEach(member => {
+						if(guild.name == "Dat Place to Go || Catalactics") {
+							if(member.user.username) num++;
+						}
+
+						data.userNum = num;
+						
+					});
+					data.save(err => err ? console.log(err) : undefined)
+				}
 
 			});
 
 		});
 	});
+
+	// client.guilds.cache.forEach(guild => {
+	// 	if(guild.roles.cache.get("721478207181815893") == undefined) return;
+		
+	// 	guild.members.cache.forEach(member => {
+	// 		let x = member._roles;
+	// 		let y = member.user.username;
+			
+			
+	// 		x.forEach(roleId => {
+	// 			let Role = mongoose.model("Role", roleSchema, guild.name);
+	// 			Role.findOne({roleId: roleId}, (err, data) => {
+	// 				if(err) return console.log(err);
+	
+	// 				data.userNum = 0;
+	// 				data.save(err => err ? console.log(err) : undefined);
+	// 			})
+	// 		})
+	// 	})
+	// });
 
 	// console.log("All roles added to the Database");
 }

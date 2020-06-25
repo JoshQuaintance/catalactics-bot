@@ -1,5 +1,4 @@
 require('dotenv').config();
-console.log(process.env.MONGO_URI);
 
 module.exports = {
 	// This is the discord token for your BOT. Keep this a secret!!

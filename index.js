@@ -25,6 +25,7 @@ const roleSchema = new mongoose.Schema({
 	serverName : { type: String, required: true },
 	roleName   : { type: String, required: true },
 	roleId     : { type: String, required: true },
+	rawPosition: Number,
 	userNum    : Number,
 	desc       : String
 });
@@ -165,7 +166,9 @@ client.on('guildMemberAdd', member => {
 function getAllRoles() {
 	client.guilds.cache.forEach(guild => {
 		guild.roles.cache.forEach(role => {
-			if (role.name == '@everyone') return;
+            // console.log(role.name, role.rawPosition);
+
+            if (role.name == '@everyone') return;
 
 			const Role = mongoose.model('Role', roleSchema, guild.name);
 
@@ -174,7 +177,8 @@ function getAllRoles() {
 					const newRole = new Role({
 						serverName : guild.name,
 						roleName   : role.name,
-						roleId     : role.id,
+                        roleId     : role.id,
+                        rawPosition: role.rawPosition,
 						userNum    : 0,
 						desc       : 'No Description Added'
 					});
@@ -186,7 +190,6 @@ function getAllRoles() {
 					let num = 0;
 					role.members.forEach(member => {
 						if(member.user.username) num++;
-
 						data.userNum = num;
 					});
 					data.save(err => (err ? console.log(err) : undefined));

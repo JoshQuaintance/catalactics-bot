@@ -11,7 +11,7 @@ function uptime(time) {
     let minutes = Math.floor(totalSeconds / 60) <= 0 ? "" : Math.floor(totalSeconds / 60) < 10 ? `0${Math.floor(totalSeconds / 60)}  minutes` : `${Math.floor(totalSeconds / 60)} minutes`;
 
     let seconds = Math.floor(totalSeconds % 60) < 10 ? `0${Math.floor(totalSeconds % 60)} seconds` : `${Math.floor(totalSeconds % 60)} seconds`;
-    
+	
     
     return [days, hours, minutes, seconds]
 }

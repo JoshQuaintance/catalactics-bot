@@ -14,10 +14,24 @@ const roleSchema = main.roleSchema;
 
 //Functions
 const funcs = require("../functions/roleFunctions");
-const desc = (msg, role) => funcs.desc(msg, role);
-const roleCheck = (msg, role, callback) => funcs.roleCheck(msg, role, callback);
-const give = (msg, role) => funcs.give(msg, role);
-const info = (msg, role) => funcs.info(msg, role);
+const desc = require("../functions/roles/desc.js");
+const roleCheck = require("../functions/roles/roleCheck.js");
+const give = require("../functions/roles/give.js");
+const info = require("../functions/roles/info.js");
+/**
+ * Function for role editing and infos.
+ * @param {Discord.Message} msg Message Object
+ */
+function role(msg) {
+	const msgArray   = msg.content.split(" ");
+	const funcPrefix = msgArray[1];
+	const roleToFind = msgArray[2];
+
+	if (funcPrefix == "info") return roleCheck(msg, roleToFind, info);
+	if (funcPrefix == "desc") return roleCheck(msg, roleToFind, desc);
+	if (funcPrefix == "give") return roleCheck(msg, roleToFind, give);
+
+}
 
 module.exports = {
 	prefix         : "role",
@@ -35,14 +49,5 @@ module.exports = {
 		}
 	],
 	desc           : "Advanced role command, additional arguments will change how it react.",
-	command        : function(msg) {
-		const msgArray   = msg.content.split(" ");
-		const funcPrefix = msgArray[1];
-		const roleToFind = msgArray[2];
-
-		if (funcPrefix == "info") return roleCheck(msg, roleToFind, info);
-		if (funcPrefix == "desc") return roleCheck(msg, roleToFind, desc);
-		if (funcPrefix == "give") return roleCheck(msg, roleToFind, give);
-		
-	}
+	command        : role
 };

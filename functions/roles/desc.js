@@ -4,7 +4,7 @@ const URI = settings.MONGO_URI;
 const generateField = require("../generateEmbedFields.js");
 const newMsg = require("../newMsg");
 
-mongoose.connect(URI, { useNewUrlParser: true, useUnifiedTopology: true });
+mongoose.connect(URI, { useNewUrlParser: true, useUnifiedTopology: true }).catch(err => err ? console.log(err) : undefined);
 // Schema for Roles and description.
 const main       = require("../../index.js");
 const roleSchema = main.roleSchema;
@@ -20,7 +20,7 @@ function desc(msg, role) {
 		let roleId = role.match(/\d/g).join("");
 		let check  = memberHasPerm(msg, 'MANAGE_ROLES');
 		if(!check) return msg.channel.send(`I'm sorry ${msg.author}, You do no have the permission to manage roles`)
-		
+
 		let roleFound = msg.guild.roles.cache.get(roleId);
 		let currentGuildIn = msg.guild;
 
@@ -38,7 +38,7 @@ function desc(msg, role) {
 			let Role = mongoose.model("Role", roleSchema, currentGuildIn);
 			Role.findOne({ roleId: roleId}, (err, data) => {
 				if (data.desc == "No Description Added") {
-					
+
 					data.desc = description;
 					data.save(err => {
 						if(err) return console.log(err);
@@ -73,5 +73,5 @@ function desc(msg, role) {
 			});
 		}
     };
-    
+
 module.exports = desc;

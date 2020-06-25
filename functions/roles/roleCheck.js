@@ -4,7 +4,7 @@ const URI = settings.MONGO_URI;
 const generateField = require("../generateEmbedFields.js");
 const newMsg = require("../newMsg");
 
-mongoose.connect(URI, { useNewUrlParser: true, useUnifiedTopology: true });
+mongoose.connect(URI, { useNewUrlParser: true, useUnifiedTopology: true }).catch(err => err ? console.log(err) : undefined);
 // Schema for Roles and description.
 const main       = require("../../index.js");
 const roleSchema = main.roleSchema;

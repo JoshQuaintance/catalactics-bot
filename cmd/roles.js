@@ -8,11 +8,11 @@ const dotenv = require("dotenv");
 dotenv.config({ path: "../.env" });
 const mongoose = require("mongoose");
 const URI = process.env.MONGO_URI;
-mongoose.connect(URI, { useNewUrlParser: true, useUnifiedTopology: true });
+mongoose.connect(URI, { useNewUrlParser: true, useUnifiedTopology: true }).catch(err => err ? console.log(err) : undefined);
 
 const main       = require("../index.js");
 const roleSchema = main.roleSchema;
-const memberHasPerm = require("../functions/memberHasPerm.js");    
+const memberHasPerm = require("../functions/memberHasPerm.js");
 
 /**
  * Function to get all the roles.
@@ -24,10 +24,10 @@ async function roles(msg) {
     let Role = mongoose.model("Role", roleSchema, msg.guild);
     await Role.find({}, (err, data) => {
         if(err) return console.log(err);
-        
+
         data.forEach(role => {
             msgText.addField(role.roleName, `<@&${role.roleId}> - ${role.desc}`);
-            
+
         })
         // console.log(msgText);
     });

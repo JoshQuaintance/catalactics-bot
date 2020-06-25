@@ -4,7 +4,7 @@ const URI = settings.MONGO_URI;
 const generateField = require("../generateEmbedFields.js");
 const newMsg = require("../newMsg");
 
-mongoose.connect(URI, { useNewUrlParser: true, useUnifiedTopology: true });
+mongoose.connect(URI, { useNewUrlParser: true, useUnifiedTopology: true }).catch(err => err ? console.log(err) : undefined);
 // Schema for Roles and description.
 const main       = require("../../index.js");
 const roleSchema = main.roleSchema;
@@ -22,7 +22,7 @@ function info(msg, role) {
     let roleName = roleFound.name;
     if (roleFound == null) return msg.channel.send(`I'm sorry ${msg.author}, you did not specify which role you want info on. If you want to get info on all the roles, you can use the \`!roles\` command.`)
     const Role = mongoose.model("Role", roleSchema, currentGuildIn);
-        
+
         Role.findOne({ roleId: roleId }, (err, data) => {
             if(err) return console.log(err);
             if(data.desc !== "No Description Added") {
@@ -38,8 +38,8 @@ function info(msg, role) {
 
 
         });
-    
-    
+
+
 }
 
 module.exports = info;

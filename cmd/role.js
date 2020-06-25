@@ -8,7 +8,7 @@ const URI      = settings.MONGO_URI;
 const mongoose = require("mongoose");
 const main     = require("../index.js");
 
-mongoose.connect(URI, { useNewUrlParser: true, useUnifiedTopology: true });
+mongoose.connect(URI, { useNewUrlParser: true, useUnifiedTopology: true }).catch(err => err ? console.log(err) : undefined);
 // Schema for Roles and description.
 const roleSchema = main.roleSchema;
 

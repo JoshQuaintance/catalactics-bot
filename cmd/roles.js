@@ -2,8 +2,7 @@ const Discord = require('discord.js');
 const client = new Discord.Client();
 const newMsg = require('../functions/newMsg.js');
 const generateFields = require('../functions/generateEmbedFields');
-const role = require('../data/role.json');
-const fs = require("fs");
+const fs = require('fs');
 
 const dotenv = require('dotenv');
 dotenv.config({ path: '../.env' });
@@ -16,13 +15,15 @@ mongoose
 const main = require('../index.js');
 const roleSchema = main.roleSchema;
 const memberHasPerm = require('../functions/memberHasPerm.js');
+const getAllRoles = main.getAllRoles;
+
 
 /**
  * Function to get all the roles.
  * @param {Discord.Message} msg Message object
  */
 async function roles(msg) {
-	let msgText =  newMsg(
+	let msgText = newMsg(
 		'#2a57eb',
 		'Role List',
 		`Hey there ${msg.author}, here's a list of the roles and what they do.`
@@ -31,24 +32,18 @@ async function roles(msg) {
 	let Role = mongoose.model('Role', roleSchema, msg.guild);
 
 	await Role.find({}, (err, data) => {
-        if (err) return console.log(err);
+		if (err) return console.log(err);
 
-        let sorted = data.sort((a, b) => b.rawPosition - a.rawPosition);
+		let sorted = data.sort((a, b) => b.rawPosition - a.rawPosition);
 
 		sorted.forEach(role => {
-
-            msgText.addField(role.roleName, `<@&${role.roleId}> - ${role.desc}`);
-
+            // console.log("when")
+			msgText.addField(role.roleName, `<@&${role.roleId}> - ${role.desc}`);
 		});
 		// console.log(msgText);
 	});
 	// console.log(msgText);
-    msg.channel.send(msgText);
-
-    fs.writeFile("newText.txt", "Hello World", err => {
-        if(err) throw err;
-        console.log("File saved successfully")
-    })
+	msg.channel.send(msgText);
 }
 
 module.exports = {

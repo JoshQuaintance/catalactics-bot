@@ -64,14 +64,6 @@ const { TOKEN } = require('./functions/get-settings.js');
 
 let commandList = [ ping, roles, about, uptime, role, commands, stats ];
 
-module.exports = {
-	roleSchema  : roleSchema,
-	commandList : [ ping, roles, about, uptime, role, commands ],
-	ex() {
-		console.log(typeof this.commandList);
-	}
-};
-
 client.on('message', msg => {
 	if (msg.author.bot) return;
 	let x = client.channels.cache.find(ch => ch.name == 'command-logs');
@@ -163,6 +155,17 @@ client.on('guildMemberAdd', member => {
 	member.send(rules);
 });
 
+client.on('roleUpdate', (old, updated) => {
+	let Role = mongoose.model('Role', roleSchema, updated.guild.name);
+
+	Role.findOne({ roleId: updated.id }, (err, data) => {
+		data.rawPosition = updated.rawPosition;
+		data.save(err => {
+			if (err) throw err;
+		});
+	});
+});
+
 function getAllRoles() {
 	client.guilds.cache.forEach(guild => {
 		guild.roles.cache.forEach(role => {
@@ -220,6 +223,11 @@ function getAllRoles() {
 
 	// console.log("All roles added to the Database");
 }
+
+module.exports = {
+	roleSchema  : roleSchema,
+	getAllRoles : getAllRoles
+};
 
 /*
 guild.roles.cache.forEach(role => {

@@ -1,5 +1,5 @@
 const mongoose = require("mongoose");
-const settings = require("../functions/get-settings.js");
+const settings = require("./functions/get-settings.js");
 const PREFIX   = settings.PREFIX;
 const URI      = settings.MONGO_URI;
 

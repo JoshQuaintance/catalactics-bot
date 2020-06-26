@@ -4,6 +4,7 @@ const newMsg = require("../functions/newMsg.js");
 // const getRepoInfo = require('git-repo-info');
 // const info = getRepoInfo();
 require('dotenv').config();
+console.log(process.env.SOURCE_VERSION)
 
 function stats(msg) {
     const hash = process.env.SOURCE_VERSION;

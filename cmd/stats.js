@@ -1,4 +1,3 @@
-const fs = require('fs');
 const Discord = require('discord.js');
 const newMsg = require("../functions/newMsg.js");
 // const getRepoInfo = require('git-repo-info');
@@ -15,7 +14,6 @@ function stats(msg) {
 
 module.exports = {
     prefix: "stats",
-    additionalParam: null,
-    desc: "Stats",
+    desc: "Shows the status of the bot.",
     command: stats
 }

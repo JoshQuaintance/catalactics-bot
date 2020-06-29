@@ -1,7 +1,10 @@
+const settings = require('./get-settings.js');
+const PREFIX = settings.PREFIX;
+
 /**
  * Function run if no command is found
- * @param {String[]} command 
- * @param {String} msg 
+ * @param {String[]} command
+ * @param {String} msg
  */
 function cmdNotFound(command, msg) {
     // gg = first letter of the command argument
@@ -10,12 +13,12 @@ function cmdNotFound(command, msg) {
     let close = [];
     let decided;
     command.forEach(cmd => {
-        let prefix = cmd.prefix; 
+        let prefix = cmd.prefix;
         if(ch1.test(prefix) == true) {
-            close.push(`!${prefix}`)
+            close.push(`${PREFIX}${prefix}`)
         }
     })
-    
+
     decided = close.join(", ");
 
     return decided;

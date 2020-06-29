@@ -15,7 +15,6 @@ mongoose
 const main = require('../index.js');
 const roleSchema = main.roleSchema;
 const memberHasPerm = require('../functions/memberHasPerm.js');
-const getAllRoles = main.getAllRoles;
 
 
 /**
@@ -29,16 +28,17 @@ async function roles(msg) {
 		`Hey there ${msg.author}, here's a list of the roles and what they do.`
 	);
 
-	let Role = mongoose.model('Role', roleSchema, msg.guild);
+	let Role = mongoose.model('Data', roleSchema, msg.guild);
 
 	await Role.find({}, (err, data) => {
-		if (err) return console.log(err);
+        if (err) return console.log(err);
+
 
 		let sorted = data.sort((a, b) => b.rawPosition - a.rawPosition);
 
 		sorted.forEach(role => {
-            // console.log("when")
-			msgText.addField(role.roleName, `<@&${role.roleId}> - ${role.desc}`);
+            if(role.roleId == undefined) return;
+			else msgText.addField(role.roleName, `<@&${role.roleId}> - ${role.desc}`);
 		});
 		// console.log(msgText);
 	});

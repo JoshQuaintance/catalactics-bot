@@ -106,12 +106,12 @@ client.on('message', msg => {
 			if (closeTo.length > 0)
 				field = generateFields(
 					[ 'Did you mean?', `\`${closeTo}\`` ],
-					[ 'Get Commands', `You can always find commands available by using the \`${prefix}commands\`.` ]
+					[ 'Get Commands', `You can always find commands available by using the \`${prefix}help\`.` ]
 				);
 			else
 				field = generateFields([
 					'Get Commands',
-					`You can always find commands available by using the \`${prefix}commands\`.`
+					`You can always find commands available by using the \`${prefix}help\`.`
 				]);
 
 			let sryEmbed = newMsg(

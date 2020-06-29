@@ -5,11 +5,16 @@ const generateFields = require('./functions/generateEmbedFields');
 const logCommand = require('./functions/logCalledCommand.js');
 const cmdNotFound = require('./functions/notFound.js');
 const wakeUpTime = require('./functions/getWakeTime');
+const { promises } = require('fs');
+const { readdir }  = promises;
 
 const fs = require('fs');
 const cl = (...args) => args.forEach(c => console.log(c));
 
-// Grabs Bot Token from .env file
+
+/**
+ * Settings
+ */
 const settings = require('./functions/get-settings.js');
 const token = settings.TOKEN;
 const prefix = settings.PREFIX;
@@ -18,9 +23,10 @@ const URI = settings.MONGO_URI;
 const botLogCh = settings.BOT_LOG_CHANNEL;
 
 const memberHasPerm = require('./functions/memberHasPerm.js');
-// const server   = new mongoose.Schema({
-// 	serverName: client.guilds.cache.name
-// })
+
+/**
+ * Schemas for MongoDB
+ */
 const roleSchema = new mongoose.Schema({
 	serverName  : { type: String, required: true },
 	roleName    : { type: String, required: true },
@@ -30,10 +36,19 @@ const roleSchema = new mongoose.Schema({
 	desc        : String
 });
 
+const commandUsageSchema = new mongoose.Schema({
+    prefix: {type: String, required: true},
+    amountCalled: Number
+});
+
 // ----
 
+// Login
 client.login(token);
 
+/**
+ * When the bot is ready (Up), it will log some active embed
+ */
 client.once('ready', () => {
 	const startTime = wakeUpTime();
 
@@ -46,23 +61,25 @@ client.once('ready', () => {
 
 	let loggingCh = client.channels.cache.find(ch => ch.name == botLogCh);
 	loggingCh.send(msg);
-	getAllRoles();
+    getAllRoles();
+    setAllCommands();
 	// client.guilds.cache.forEach(guild => console.log(guild));
 });
 
 /**
  * Commands
+ * TODO : Change way of getting commands into using files, instead of objects.
  */
 const uptime = require('./cmd/uptime.js');
 const ping = require('./cmd/ping.js');
 const roles = require('./cmd/roles.js');
 const about = require('./cmd/about.js');
 const role = require('./cmd/role.js');
-const commands = require('./cmd/commands');
-const stats = require('./cmd/stats');
+const help = require('./cmd/help');
+// const stats = require('./cmd/stats');
 const { TOKEN } = require('./functions/get-settings.js');
 
-let commandList = [ ping, roles, about, uptime, role, commands, stats ];
+let commandList = [ ping, roles, about, uptime, role, help ];
 
 client.on('message', msg => {
 	if (msg.author.bot) return;
@@ -155,8 +172,12 @@ client.on('guildMemberAdd', member => {
 	member.send(rules);
 });
 
+/**
+ * Everytime a role is updated/changed in anyway,
+ * it will update necessary information for the database
+ */
 client.on('roleUpdate', (old, updated) => {
-	let Role = mongoose.model('Role', roleSchema, updated.guild.name);
+	let Role = mongoose.model('Data', roleSchema, updated.guild.name);
 
 	Role.findOne({ roleId: updated.id }, (err, data) => {
 		data.rawPosition = updated.rawPosition;
@@ -173,7 +194,10 @@ function getAllRoles() {
 
 			if (role.name == '@everyone') return;
 
-			const Role = mongoose.model('Role', roleSchema, guild.name);
+            /**
+             * Adding roles into databases
+             */
+			const Role = mongoose.model('Data', roleSchema, guild.name);
 
 			Role.findOne({ roleId: role.id }, (err, data) => {
 				if (err || !data) {
@@ -198,34 +222,62 @@ function getAllRoles() {
 					});
 					data.save(err => (err ? console.log(err) : undefined));
 				}
-			});
+            });
+
+
+
 		});
 	});
-
-	// client.guilds.cache.forEach(guild => {
-	// 	if(guild.roles.cache.get("721478207181815893") == undefined) return;
-
-	// 	guild.members.cache.forEach(member => {
-	// 		let x = member._roles;
-	// 		let y = member.user.username;
-
-	// 		x.forEach(roleId => {
-	// 			let Role = mongoose.model("Role", roleSchema, guild.name);
-	// 			Role.findOne({roleId: roleId}, (err, data) => {
-	// 				if(err) return console.log(err);
-
-	// 				data.userNum = 0;
-	// 				data.save(err => err ? console.log(err) : undefined);
-	// 			})
-	// 		})
-	// 	})
-	// });
-
-	// console.log("All roles added to the Database");
 }
 
+/**
+ * Store all commands
+ */
+async function setAllCommands() {
+
+    const results = await readdir('./cmd/');
+    await results.forEach(file => {
+        const filename = file;
+        const lookup = require(`./cmd/${filename}`);
+
+
+        // Get all the guilds the bot is in, and for every guild it's on
+        client.guilds.cache.forEach(guild => {
+
+            // Get collection
+            const Role = mongoose.model('Commands', commandUsageSchema, guild.name);
+
+            // Find the specific command using the prefix.
+            Role.findOne({ prefix: lookup.prefix }, (err, data) => {
+                // If the command is not in the database yet
+                    if(err || !data) {
+                        const newCmd = new Role({
+                            prefix: lookup.prefix,
+                            amountCalled: 0
+                        });
+
+                        newCmd.save(err => {
+                            if(err) console.log(err);
+                        });
+
+                    } else return;
+
+
+            });
+
+
+        })
+    });
+
+
+}
+
+/**
+ * Exports some necessary variables
+ */
 module.exports = {
-	roleSchema  : roleSchema,
+    roleSchema  : roleSchema,
+    commandUsageSchema: commandUsageSchema,
 	getAllRoles : getAllRoles
 };
 

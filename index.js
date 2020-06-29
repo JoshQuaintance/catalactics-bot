@@ -76,10 +76,10 @@ const roles = require('./cmd/roles.js');
 const about = require('./cmd/about.js');
 const role = require('./cmd/role.js');
 const help = require('./cmd/help');
-// const stats = require('./cmd/stats');
+const stats = require('./cmd/stats');
 const { TOKEN } = require('./functions/get-settings.js');
 
-let commandList = [ ping, roles, about, uptime, role, help ];
+let commandList = [ ping, roles, about, uptime, role, help, stats ];
 
 client.on('message', msg => {
 	if (msg.author.bot) return;

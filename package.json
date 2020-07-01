@@ -9,7 +9,7 @@
 	"description": "",
 	"main": "index.js",
 	"scripts": {
-		"start": "node index",
+		"start": "node dist",
 		"test": "jest --passWithNoTests"
 	},
 	"keywords": [],
@@ -24,7 +24,8 @@
 		"request": "^2.88.2"
 	},
 	"devDependencies": {
-		"jest": "^26.1.0",
-		"editorconfig": "^0.15.3"
+		"@types/mongoose": "^5.7.29",
+		"editorconfig": "^0.15.3",
+		"jest": "^26.1.0"
 	}
 }

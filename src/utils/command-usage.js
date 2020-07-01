@@ -1,8 +1,8 @@
-const settings = require("../functions/get-settings.js");
+const settings = require("../utils/get-settings.js");
 const URI      = settings.MONGO_URI;
 const mongoose = require("mongoose");
 const main     = require("../index.js");
-const newMsg = require('./functions/newMsg.js');
+const newMsg = require('./utils/newMsg.js');
 const commandUsageSchema = main.commandUsageSchema;
 
 // Connect to the database using the URI from the variable file.

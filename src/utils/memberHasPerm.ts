@@ -1,16 +1,16 @@
-const { DiscordAPIError } = require("discord.js");
+import { Message, PermissionString } from 'discord.js';
 
 /**
- * Function checking if the user have specific permission
- * @param {Discord.Message} msg The msg object
- * @param {String} perm Permission String.
+ * Checks if the user have specific permission
+ * @param {Message} msg The msg object
+ * @param {PermissionString} perm Permission String.
  */
-function memberHasPerm(msg, perm) {
-    if(msg.author.bot) return;
+export function memberHasPerm(msg: Message, perm: PermissionString) {
+	if (msg.author.bot) return;
     let member = msg.member;
-    if(typeof perm !== "string") return perm = perm.toString();
-    if(member.hasPermission(perm)) return true;
-    else return false;
+    if (member == null) throw 'User Member Cannot Be Found';
+	if (member.hasPermission(perm)) return true;
+	else return false;
 }
 
 //This function may be useful later
@@ -27,7 +27,7 @@ function memberHasPerm(msg, perm) {
                 break;
             } else {
                 x = false;
-            } 
+            }
         }
         data.forEach(role => {
             if(member.has(role.roleId)) return true;
@@ -37,4 +37,3 @@ function memberHasPerm(msg, perm) {
     return x;
 }*/
 
-module.exports = memberHasPerm;

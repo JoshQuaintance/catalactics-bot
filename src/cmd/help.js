@@ -1,8 +1,8 @@
 const { promises } = require('fs');
 const { readdir } = promises;
-const settings = require('../functions/get-settings.js');
+const settings = require('../utils/get-settings.js');
 const prefix = settings.PREFIX;
-const newMsg = require('../functions/newMsg.js');
+const newMsg = require('../utils/newMsg.js');
 const URI = settings.MONGO_URI;
 const mongoose = require('mongoose');
 const main = require('../index.js');
@@ -25,7 +25,7 @@ async function getPopularCommands(msg) {
 
         let filtered = data.filter(doc => typeof doc.prefix == 'string');
         sorted = filtered.sort((a, b) => b.amountCalled - a.amountCalled).slice(0, 4);
-        
+
     });
 
     return sorted;

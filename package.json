@@ -10,7 +10,8 @@
 	"main": "index.js",
 	"scripts": {
 		"start": "node dist",
-		"test": "jest --passWithNoTests"
+		"test": "jest --passWithNoTests",
+		"build": "tsc"
 	},
 	"keywords": [],
 	"license": "MIT",
@@ -21,7 +22,8 @@
 		"git-repo-info": "^2.1.1",
 		"mongodb": "^3.5.9",
 		"mongoose": "^5.9.19",
-		"request": "^2.88.2"
+		"request": "^2.88.2",
+		"tsc": "^1.20150623.0"
 	},
 	"devDependencies": {
 		"@types/mongoose": "^5.7.29",

@@ -1,12 +1,13 @@
 import { Message, MessageEmbed } from 'discord.js';
-import { promises } from 'fs';
+import { CMD } from './commands';
+// import { promises } from 'fs';
 import { getSettings } from '../utils/get-settings';
 import mongoose from 'mongoose';
 import { commandUsageSchema } from '../index';
 import { CommandDbType } from '../utils/db-defs/commandDB.int';
 import { CommandsType } from '../utils/cmd-def.int';
 
-const { readdir } = promises;
+// const { readdir } = promises;
 // Settings
 const prefix = getSettings().PREFIX;
 const URI = getSettings().MONGO_URI;
@@ -18,20 +19,20 @@ mongoose.connect(URI, { useNewUrlParser: true, useUnifiedTopology: true })
 /**
  * Get the top 4 commands with the most called times.
  */
-function getPopularCommands(msg: Message): CommandDbType[] {
+async function getPopularCommands(msg: Message) {
 	let guild = msg.guild?.toString();
 
 	const Data = mongoose.model('Commands', commandUsageSchema, guild);
-    let filtered: CommandDbType[] = [];
+    let sorted: any;
 
-	Data.find({}, (err: any, data: CommandDbType[]) => {
-		if (err) throw err;
+	await Data.find({}, (err: any, data: CommandDbType[]) => {
+        if (err) throw err;
 
-        filtered = data.filter(doc => typeof doc.prefix == 'string');
-
+        let filtered = data.filter(doc => typeof doc.prefix == 'string');
+        sorted = filtered.sort((a, b) => b.amountCalled - a.amountCalled).slice(0, 4);
     });
-
-    return filtered.sort((a, b) => b.amountCalled - a.amountCalled).slice(0, 4);
+    console.log(sorted + "Sorted")
+    return sorted;
 }
 
 /**
@@ -55,20 +56,20 @@ export const help: CommandsType = {
                 .setTitle('Full List of All The Commands Available')
                 .setDescription(`Hello there, here is the full list of all the commands available. If you want to call me, you can do so using the prefix \`${prefix}\``)
 
-            let fields = await getPopularCommands(msg);
-
-            const results = await readdir(__dirname);
-            await results.forEach(file => {
-                const filename = file;
-                const lookup = require(`./${filename}`);
-
-                if (lookup.prefix && lookup.desc) cmdMsg.addField(lookup.prefix, lookup.desc);
+            await getPopularCommands(msg).then(fulfilled => {
+                fulfilled.forEach((cmd: any) => {
+                    let lookup = CMD.find(look => cmd.prefix == look.prefix);
+                    embedMsg.addField(lookup!.prefix, lookup!.desc);
+                });
             });
 
-            await fields.forEach(cmd => {
-                const lookup = require(`./${cmd.prefix}`);
-                embedMsg.addField(lookup.prefix, lookup.desc);
+
+            CMD.forEach(file => {
+
+                if (file.prefix && file.desc)
+                    cmdMsg.addField(file.prefix, file.desc);
             });
+
 
             msg.author.send(cmdMsg);
             msg.channel.send(embedMsg);

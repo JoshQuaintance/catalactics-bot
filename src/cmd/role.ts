@@ -43,6 +43,7 @@ export const role: CommandsType = {
             const funcPrefix = msgArray[1];
             const roleToFind = msgArray[2];
 
+            if (funcPrefix == undefined) return msg.channel.send(`Please specify an argument.`)
             if (funcPrefix == 'info') return roleCheck(msg, roleToFind, info);
             if (funcPrefix == 'desc') return roleCheck(msg, roleToFind, desc);
             if (funcPrefix == 'give') return roleCheck(msg, roleToFind, give);

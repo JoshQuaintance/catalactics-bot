@@ -35,7 +35,7 @@ export const stats: CommandsType = {
 			embed.addField(`Uptime`, `\\>    ${days} ${hours} ${minutes} ${seconds}`);
 
 			// If version is undefined, it will get a different approach locally
-			const hash = process.env.SOURCE_VERSION!.slice(0, 10) || info.abbreviatedSha;
+			const hash = process.env.SOURCE_VERSION?.slice(0, 10) || info.abbreviatedSha;
 
 			// Adds a field to the embed
 			embed.addField(

@@ -2,7 +2,7 @@ import { CommandsType } from "../utils/cmd-def.int";
 import { getSettings } from '../utils/get-settings';
 import { roleSchema } from '../index.js';
 import RoleType from "../utils/db-defs/roleDB.int";
-const newMsg = require('../utils/newMsg.js');
+import { MessageEmbed } from "discord.js";
 const mongoose = require('mongoose');
 const URI = getSettings().MONGO_URI;
 mongoose.connect(URI, { useNewUrlParser: true, useUnifiedTopology: true })
@@ -14,11 +14,10 @@ export const roles: CommandsType = {
 	desc            : 'Gives a list of the roles and a little description of what they do',
 	command         : async msg => {
         try {
-            let msgText = newMsg(
-                '#2a57eb',
-                'Role List',
-                `Hey there ${msg.author}, here's a list of the roles and what they do.`
-            );
+            let msgText = new MessageEmbed()
+                .setColor('#2a57eb')
+                .setTitle('Role List')
+                .setDescription(`Hey there ${msg.author}, here's a list of the roles and what they do.`)
 
             let Role = mongoose.model('Data', roleSchema, msg.guild);
 

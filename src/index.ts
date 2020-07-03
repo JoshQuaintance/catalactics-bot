@@ -1,12 +1,15 @@
 import Discord, { Message, Client, TextChannel, MessageEmbed } from 'discord.js';
-const client = new Client();
+import { CMD } from './cmd/commands';
 import newMsg from './utils/newMsg';
-import generateFields from './utils/generateEmbedFields';
 import logCommand from './utils/logCalledCommand';
 import cmdNotFound from './utils/notFound';
 import wakeUpTime from './utils/getWakeTime';
-import { promises } from 'fs';
-const { readdir } = promises;
+import RoleType from './utils/db-defs/roleDB.int';
+import { CommandsType } from './utils/cmd-def.int';
+// import { promises } from 'fs';
+
+const client = new Client();
+// const { readdir } = promises;
 
 const cl = (...args: any[]) => args.forEach(c => console.log(c));
 
@@ -67,24 +70,13 @@ client.once('ready', () => {
  * Commands
  * TODO : Change way of getting commands into using files, instead of objects.
  */
-import { uptime } from './cmd/uptime';
-import { ping } from './cmd/ping';
-import { roles } from './cmd/roles';
-import { about } from './cmd/about';
-import { role } from './cmd/role';
-import { help } from './cmd/help';
-import { stats } from './cmd/stats';
-import RoleType from './utils/db-defs/roleDB.int';
-import { CommandsType } from './utils/cmd-def.int';
 // import { getSettings } from './utils/get-settings';
-
-let commandList = [ ping, roles, about, uptime, role, help, stats ];
 
 client.on('message', msg => {
 	if (msg.author.bot) return;
     let x = client.channels.cache.find(ch => (ch as TextChannel).name == 'command-logs');
 	if (msg.content.startsWith(prefix)) {
-		for (var cmd of commandList) {
+		for (var cmd of CMD) {
 
 			var msgArray = msg.content.split(' ');
 
@@ -99,7 +91,7 @@ client.on('message', msg => {
 		}
 
 		if (cmdRun! !== cmd!.prefix && !msg.author.bot) {
-			let closeTo = cmdNotFound(commandList, msg.content);
+			let closeTo = cmdNotFound(CMD, msg.content);
 			let sryEmbed = new MessageEmbed()
                 .setColor('#eb4034')
                 .setTitle('Command Not Found!')
@@ -259,10 +251,7 @@ function getAllRoles(): void {
  */
 async function setAllCommands() {
     try {
-        const results = await readdir('./cmd/');
-        await results.forEach(file => {
-            const filename = file;
-            const lookup = require(`./cmd/${filename}`);
+        await CMD.forEach(file => {
 
             // Get all the guilds the bot is in, and for every guild it's on
             client.guilds.cache.forEach(guild => {
@@ -270,11 +259,11 @@ async function setAllCommands() {
                 const Role = mongoose.model('Commands', commandUsageSchema, guild.name);
 
                 // Find the specific command using the prefix.
-                Role.findOne({ prefix: lookup.prefix }, (err: any, data: CommandsType) => {
+                Role.findOne({ prefix: file.prefix }, (err: any, data: CommandsType) => {
                     // If the command is not in the database yet
                     if (err || !data) {
                         const newCmd = new Role({
-                            prefix: lookup.prefix,
+                            prefix: file.prefix,
                             amountCalled: 0
                         });
 

@@ -11,15 +11,15 @@ You want to contribute on this Discord Bot, come along, let me tell you how:
 1. [Install the necessary softwares.](#install-necessary-softwares) (Important)
 2. Fork this repository.
 
-![forking](images/forking.png)
+![forking](src/images/forking.png)
 
 3. Clone the forked repo to your local machine and cd to the directory. You can do so using this command in the git bash: `git clone https://github.com/Your-Username/catalactics-bot`. If you are using VSCode, you can use the Integrated terminal for this. Look at the full documentations for this.
 
-![Clone Gif](images/GitHubClone.gif)
+![Clone Gif](src/images/GitHubClone.gif)
 
 4. Create a new branch
 
-![Github Branch](images/GitHubBranch.gif)
+![Github Branch](src/images/GitHubBranch.gif)
 
 5. Make changes to the code. Add, update, or fix the code.
 6. Test/debug your changes by running the bot locally.
@@ -54,20 +54,20 @@ Go into the Discord's Website, then go to the Developer Portal and Sign in. You 
 3. Go to the Bot section.
 4. Press the Add Bot, and press Confirm
 
-![Add New Bot](images/add-bot.png)
+![Add New Bot](src/images/add-bot.png)
 
 5. Go back to `General Information`.
 6. Copy the Client ID.
 
-![Get Client ID](./images/get-client-id.png)
+![Get Client ID](./src/images/get-client-id.png)
 
 7. Go to this [link](https://discordapi.com/permissions.html#257038), scroll down and enter in your client ID. Then Click on the link generated at the bottom.
 
-![Get Server Permissions](./images/Get-into-server.png)
+![Get Server Permissions](./src/images/Get-into-server.png)
 
 8. Then it's going to ask which server you want the bot in. Pick the server you want and click Select. Then, It's going to show a form full of permissions, scroll down and click `Authorize`. Finish the captcha.
 
-![Captcha](images/Captcha.PNG)
+![Captcha](src/images/Captcha.PNG)
 
 ...and you're done, your bot should slide in to your server. There is still some stuff to do to get it running.
 
@@ -85,7 +85,7 @@ DISCORD_TOKEN=your-discord-token
 
 You can get your discord token through the discord portal in the `Bot` section of your application.
 
-![Get Token](./images/copy-token.png)
+![Get Token](./src/images/copy-token.png)
 
 4. Then inside the `.env` file, add a prefix like the example below (The default prefix is "!"). This is how you're going to call the bot later on. Ex:
 
@@ -109,7 +109,7 @@ You can get your discord token through the discord portal in the `Bot` section o
    ```
 
 
-   This is what the whole `.env` would look like without the comments: ![dotEnv File](images/.envFile.png)
+   This is what the whole `.env` would look like without the comments: ![dotEnv File](src/images/.envFile.png)
 8. Open up a terminal in the folder. (If you are using VSCode, you can press ``` CTRL + ` ``` Shortcut)
 9. Type the following command and hit enter:
 

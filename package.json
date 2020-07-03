@@ -1,12 +1,9 @@
 {
-	"name": "CatalacticsBot",
+	"name": "catalactics-bot",
 	"author": "Joshua Pelealu",
-	"version": "1.0.0",
-	"repository": {
-		"type": "git",
-		"url": "https://github.com/JoshuaPelealu/catalactics-bot"
-	},
-	"description": "",
+	"version": "0.2-alpha",
+	"repository": "https://github.com/JoshuaPelealu/catalactics-bot",
+	"description": "A discord bot made by Joshua Pelealu (Catalactics)",
 	"main": "index.js",
 	"scripts": {
 		"start": "node dist",
@@ -20,14 +17,17 @@
 		"discord.js": "^12.2.0",
 		"dotenv": "^8.2.0",
 		"git-repo-info": "^2.1.1",
+		"luxon": "^1.24.1",
 		"mongodb": "^3.5.9",
 		"mongoose": "^5.9.19",
 		"request": "^2.88.2",
 		"tsc": "^1.20150623.0"
 	},
 	"devDependencies": {
+		"@types/luxon": "^1.24.1",
 		"@types/mongoose": "^5.7.29",
 		"editorconfig": "^0.15.3",
-		"jest": "^26.1.0"
+		"jest": "^26.1.0",
+		"typescript": "^3.9.6"
 	}
 }

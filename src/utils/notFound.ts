@@ -10,7 +10,7 @@ const PREFIX = getSettings().PREFIX;
  *
  * @returns An array of all the prefixes that is close to the message
  */
-export default function cmdNotFound(command: any[], msg: Message) {
+export default function cmdNotFound(command: any[], msg: string) {
 
     const firstLetter    = msg.toString().split(" ")[0][1];
     let regex   = new RegExp(`^${firstLetter}`, "g");

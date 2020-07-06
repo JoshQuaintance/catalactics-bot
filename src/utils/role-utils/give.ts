@@ -7,6 +7,6 @@ import { Message, MessageEmbed } from 'discord.js';
 export default function give(msg: Message, role: string) {
 	let roleId = role.match(/\d/g)!.join('');
     let roleFound = msg.guild!.roles.cache.get(roleId!);
-    let userToGive = (msg as string).split(' ');
+    let userToGive = msg.content.split(' ');
 
 }

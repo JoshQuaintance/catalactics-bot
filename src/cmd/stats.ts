@@ -8,7 +8,7 @@ require('dotenv').config();
 export const stats: CommandsType = {
 	prefix: 'stats',
 	desc: 'Shows the status of the bot.',
-	command: async function stats(msg, client) {
+	command: async function stats(msg, { client }) {
 		try {
 			// The message embed to send
 			let embed = new MessageEmbed().setColor('#FF00FF').setTitle('Catalactics Stats').setDescription(' ');
@@ -35,7 +35,7 @@ export const stats: CommandsType = {
 			embed.addField(`Uptime`, `\\>    ${days} ${hours} ${minutes} ${seconds}`);
 
 			// If version is undefined, it will get a different approach locally
-			const hash = process.env.SOURCE_VERSION?.slice(0, 10) || info.abbreviatedSha;
+			const hash = process.env.SOURCE_VERSION!.slice(0, 10) || info.abbreviatedSha;
 
 			// Adds a field to the embed
 			embed.addField(
@@ -49,3 +49,5 @@ export const stats: CommandsType = {
 		}
 	}
 };
+
+export default stats;

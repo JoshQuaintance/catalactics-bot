@@ -32,11 +32,12 @@ export function getUptime(time: number): string[] {
 
 	return [ days, hours, minutes, seconds ];
 }
+
 export const uptime: CommandsType = {
 
 	prefix          : 'uptime',
 	desc            : 'Shows the uptime of the bot',
-	command         : (msg, client): void => {
+	command         : (msg, { client }): void => {
         try {
             let totalSeconds = client!.uptime! / 1000;
             let up = getUptime(totalSeconds);
@@ -58,3 +59,5 @@ export const uptime: CommandsType = {
 
 	}
 };
+
+export default uptime;

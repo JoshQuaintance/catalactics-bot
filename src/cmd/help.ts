@@ -5,7 +5,6 @@ import { CommandDbType } from '../utils/db-defs/commandDB.int';
 import { CommandsType } from '../utils/cmd-def.int';
 import { config } from 'dotenv/types';
 
-
 export const help: CommandsType = {
 	prefix: 'help',
 	additionalParam: '[Command]',
@@ -17,9 +16,10 @@ export const help: CommandsType = {
      */
 	command: async function getAllCommands(msg, { settings, CMD }) {
 		try {
-            // Connect to the database using the URI from the variable file.
-            mongoose.connect(settings.MONGO_URI, { useNewUrlParser: true, useUnifiedTopology: true })
-                .catch(err => {throw err});
+			// Connect to the database using the URI from the variable file.
+			mongoose.connect(settings.MONGO_URI, { useNewUrlParser: true, useUnifiedTopology: true }).catch(err => {
+				throw err;
+			});
 			const Data = mongoose.model('Commands', commandUsageSchema, msg.guild!.toString());
 
 			// Gets the argument
@@ -37,18 +37,18 @@ export const help: CommandsType = {
 						`Hey there ${msg.author}, Here's a full list of all the commands. \n For more information about each commands, type \`${settings.PREFIX}help <command>\``
 					);
 
-                await Data.find({}, (err: any, data: CommandsType[]) => {
-                    if(err) throw err;
+				await Data.find({}, (err: any, data: CommandsType[]) => {
+					if (err) throw err;
 
-                    let x: any[] = []
-                    data.forEach(cmd => {
-                        if(!cmd.prefix) return;
-                        x.push(`\`${cmd.prefix}\``)
-                    })
-                    let xx = x.join(' ');
+					let x: any[] = [];
+					data.forEach(cmd => {
+						if (!cmd.prefix) return;
+						x.push(`\`${cmd.prefix}\``);
+					});
+					let xx = x.join(' ');
 
-                    embedMsg.addField(`All Commands`, xx)
-                });
+					embedMsg.addField(`All Commands`, xx);
+				});
 
 				msg.channel.send(embedMsg);
 			} else {
@@ -64,17 +64,24 @@ export const help: CommandsType = {
 					.setTitle(title)
 					.addField('Description', commandFound.desc);
 
-				/**
-                 * If the command have additionalParam, it will add new
-                 * For the options
-                 */
-				if (commandFound.additionalParam)
-					embed.addField('Additional Parameter(s)', commandFound.additionalParam);
+				let commandArgs: any[] = [];
+				if (commandFound.args) {
+					commandFound.args.forEach(arg => {
+                        commandArgs.push(`• ${arg.options}`);
+					});
 
-				await Data.findOne({ prefix: commandFound.prefix }, (err: any, data: CommandDbType) => {
-					if (err) throw err;
-					embed.addField('Amount Called in Server', `${data.amountCalled} times`);
-				});
+					embed.addField('`Options`', commandArgs.join('\n'));
+				}
+
+
+				if (commandFound.additionalParam) embed.addField('\u200b', 'Required: `<>` | Optional: `[]` \n\u200b');
+
+
+                await Data.findOne({ prefix: commandFound.prefix }, (err: any, data: CommandDbType) => {
+                    if (err) throw err;
+
+                    embed.addField('Amount Called in Server', `${data.amountCalled} times`);
+                });
 
 				msg.channel.send(embed);
 			}

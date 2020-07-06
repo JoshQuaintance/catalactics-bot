@@ -1,4 +1,4 @@
-import { Message } from 'discord.js';
+import { Message, MessageEmbed } from 'discord.js';
 /**
  * Function that gives a user a specific role
  * @param {Discord.Message} msg Message Object
@@ -6,6 +6,7 @@ import { Message } from 'discord.js';
  */
 export default function give(msg: Message, role: string) {
 	let roleId = role.match(/\d/g)!.join('');
-	let roleFound = msg.guild!.roles.cache.get(roleId!);
-	let currentGuildIn = msg.guild;
+    let roleFound = msg.guild!.roles.cache.get(roleId!);
+    let userToGive = (msg as string).split(' ');
+
 }

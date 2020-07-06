@@ -26,17 +26,16 @@ export const role: CommandsType = {
 	additionalParam: '<Options> <...arguments>',
 	args: [
 		{
-			param: 'desc',
-			arguments: 'desc `<role> <description>`'
+			options: 'desc `<role> <description>`'
 		},
 		{
-			param: 'info',
-			arguments: 'info `<role>`'
+			options: 'info `<role>`'
 		}
-	],
+    ],
+    examples: ['desc @ServerOwner Owner of the server'],
 	desc: 'Advanced role command, additional arguments will change how it react.',
 
-	command: msg => {
+	command: (msg, {settings}) => {
 		try {
 			const msgArray = msg.content.split(' ');
 			const funcPrefix = msgArray[1];
@@ -45,7 +44,8 @@ export const role: CommandsType = {
 			if (funcPrefix == undefined) return msg.channel.send(`Please specify an argument.`);
 			if (funcPrefix == 'info') return roleCheck(msg, roleToFind, info);
 			if (funcPrefix == 'desc') return roleCheck(msg, roleToFind, desc);
-			if (funcPrefix == 'give') return roleCheck(msg, roleToFind, give);
+            if (funcPrefix == 'give') return roleCheck(msg, roleToFind, give);
+            else return msg.channel.send(`Please specify the right arguments. \nIf you need help, you can type \`${settings.PREFIX}help role\``)
 		} catch (err) {
 			console.error(err);
 		}

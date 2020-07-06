@@ -1,12 +1,13 @@
 {
 	"name": "catalactics-bot",
 	"author": "Joshua Pelealu",
-	"version": "0.3.0",
+	"version": "0.2.0",
 	"repository": "https://github.com/JoshuaPelealu/catalactics-bot",
 	"description": "A discord bot made by Joshua Pelealu (Catalactics)",
 	"main": "./dist/src/index.js",
 	"scripts": {
-		"start": "node ./dist/index.js",
+        "start": "node ./dist/index.js",
+        "dev": "nodemon ./dist/index.js",
 		"test": "jest --passWithNoTests",
 		"build": "tsc"
 	},
@@ -28,6 +29,7 @@
 		"@types/mongoose": "^5.7.29",
 		"@types/node": "^14.0.14",
 		"editorconfig": "^0.15.3",
-		"jest": "^26.1.0"
+		"jest": "^26.1.0",
+		"nodemon": "^2.0.4"
 	}
 }

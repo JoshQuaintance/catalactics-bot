@@ -1,7 +1,7 @@
 {
 	"name": "catalactics-bot",
 	"author": "Joshua Pelealu",
-	"version": "0.2.0",
+	"version": "0.3.0",
 	"repository": "https://github.com/JoshuaPelealu/catalactics-bot",
 	"description": "A discord bot made by Joshua Pelealu (Catalactics)",
 	"main": "./dist/src/index.js",

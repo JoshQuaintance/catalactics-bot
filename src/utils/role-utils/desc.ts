@@ -23,7 +23,7 @@ export default (msg: Message, role: string) => {
 		if (!check) return msg.channel.send(`I'm sorry ${msg.author}, You do no have the permission to manage roles`);
 
 		let roleFound = msg.guild!.roles.cache.get(roleId);
-		const currentGuildIn: string | undefined = msg.guild?.toString();
+		const currentGuildIn: string | undefined = msg.guild!.toString();
 
 		let description = msg.content.split(' ').slice(3).join(' ');
 		if (roleFound == null)

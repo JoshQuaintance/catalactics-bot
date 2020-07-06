@@ -14,10 +14,10 @@ mongoose.connect(URI, { useNewUrlParser: true, useUnifiedTopology: true })
  * @param {String} role Role String
  */
 export default function info(msg: Message, role: string) {
-	let roleId = role.match(/\d/g)?.join('');
-	let roleFound = msg.guild?.roles.cache.get(<string>roleId);
-	let currentGuildIn = msg.guild?.toString();
-	let roleName = roleFound?.name;
+	let roleId = role.match(/\d/g)!.join('');
+	let roleFound = msg.guild!.roles.cache.get(<string>roleId);
+	let currentGuildIn = msg.guild!.toString();
+	let roleName = roleFound!.name;
 	if (roleFound == null)
 		return msg.channel.send(
 			`I'm sorry ${msg.author}, you did not specify which role you want info on. If you want to get info on all the roles, you can use the \`!roles\` command.`

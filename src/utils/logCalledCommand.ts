@@ -3,13 +3,10 @@ import { Client, Message, Channel, TextChannel }  from 'discord.js';
 const client = new Client();
 import lastCalled from '../data/lastCaller.json';
 import commandUsed from './commandUsed';
+import { getSettings } from './get-settings';
+import { CommandsType } from './cmd-def.int';
+const logCommands = getSettings().LOG_COMMAND;
 
-interface CommandsType {
-    prefix: string,
-    additionalParam?: string,
-    desc: string,
-    command: (msg: Message, client?: Client) => void;
-}
 
 /**
  * Function that will log all the commands that are called
@@ -28,36 +25,39 @@ export default async function logCommand(msg: Message, cmd: CommandsType, channe
 
     let overallCalledAmount = await commandUsed(msg, cmd);
 
-    // check and checksX return true
-    if (checks || checksX) {
-        lastCalled.author = msg.author.toString();
-        lastCalled.prefix = cmd.prefix;
-        lastCalled.times = 1;
-        const sent = await (channel as TextChannel)
-            .send(
-                new Discord.MessageEmbed()
-                .setColor('#8238c7')
-                .setTitle('Command Called')
-                .setDescription(
-                    `Command: ${cmd.prefix}\n Called By: ${msg.author}\n Called Times: ${lastCalled.times}\n Overall Times Command Called On Server: ${overallCalledAmount}`
-                )
-            )
-            .catch(err => console.error(err));
-        lastCalled.id = (sent as Message).id;
-        // else if check 2 returns true;
-    } else if (check2) {
-        lastCalled.times++;
-        (channel as TextChannel).messages
-            .fetch(lastCalled.id)
-            .then(fetched =>
-                fetched.edit(
-                    new Discord.MessageEmbed().setColor('#8238c7').setTitle('Command Called').setDescription(
+    if(logCommands) {
+        // check and checksX return true
+        if (checks || checksX) {
+            lastCalled.author = msg.author.toString();
+            lastCalled.prefix = cmd.prefix;
+            lastCalled.times = 1;
+            const sent = await (channel as TextChannel)
+                .send(
+                    new Discord.MessageEmbed()
+                    .setColor('#8238c7')
+                    .setTitle('Command Called')
+                    .setDescription(
                         `Command: ${cmd.prefix}\n Called By: ${msg.author}\n Called Times: ${lastCalled.times}\n Overall Times Command Called On Server: ${overallCalledAmount}`
                     )
                 )
-            )
-            // If there is an error sending the message log it
-            .catch(err => console.log(err));
-    }
+                .catch(err => console.error(err));
+            lastCalled.id = (sent as Message).id;
+            // else if check 2 returns true;
+        } else if (check2) {
+            lastCalled.times++;
+            (channel as TextChannel).messages
+                .fetch(lastCalled.id)
+                .then(fetched =>
+                    fetched.edit(
+                        new Discord.MessageEmbed().setColor('#8238c7').setTitle('Command Called').setDescription(
+                            `Command: ${cmd.prefix}\n Called By: ${msg.author}\n Called Times: ${lastCalled.times}\n Overall Times Command Called On Server: ${overallCalledAmount}`
+                        )
+                    )
+                )
+                // If there is an error sending the message log it
+                .catch(err => console.log(err));
+        }
+    } else return;
+
 }
 

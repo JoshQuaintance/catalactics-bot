@@ -1,4 +1,4 @@
-import { Message } from 'discord.js';
+import { Message, Client } from 'discord.js';
 import mongoose from 'mongoose';
 import { getSettings } from '../../utils/get-settings';
 const URI = getSettings().MONGO_URI;
@@ -13,11 +13,11 @@ mongoose
  * @param {String} role Role id called out
  * @param {String} callback Callback function name
  */
-export default (msg: Message, role: string, callback: Function) => {
+export default (msg: Message, role: string, callback: Function, client?: Client) => {
 	if (role == '@everyone') return;
 	if (role == undefined) return msg.channel.send('Please specify a role');
 	let roleId = role.match(/\d/g)!.join('');
 	let roleFound = msg.guild!.roles.cache.get(roleId!);
-	if (roleFound !== null) return callback(msg, role);
+	if (roleFound !== null) return callback(msg, role, client);
 	else msg.channel.send('Role not Found');
 };

@@ -1,3 +1,6 @@
+// THIS FILE IS CURRENTLY DISABLED
+
+
 import { Message, MessageEmbed } from 'discord.js';
 import mongoose from 'mongoose';
 import { getSettings } from '../../../utils/get-settings';

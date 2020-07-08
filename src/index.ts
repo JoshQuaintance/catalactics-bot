@@ -208,13 +208,9 @@ function getAllRoles(): void {
 							if (err) throw err;
 						});
 					} else {
-						let num = 0;
 						data.rawPosition = role.rawPosition;
 
-						role.members.forEach(member => {
-							if (member.user.username) num++;
-							data.userNum = num;
-						});
+						data.userNum = role.members.size;
 
 						data.save((err: any) => {
 							if (err) throw err;

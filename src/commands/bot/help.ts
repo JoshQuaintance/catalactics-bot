@@ -2,6 +2,7 @@ import { Message, MessageEmbed } from 'discord.js';
 import mongoose from 'mongoose';
 import { commandSchema } from '../../utils/schemas';
 import { CommandsDbInt, CommandsType } from '../../utils/interfaces';
+import { stripIndents } from 'common-tags';
 
 export const help: CommandsType = {
 	prefix: 'help',
@@ -61,13 +62,11 @@ export const help: CommandsType = {
 					.setTitle(title)
 					.addField('Description', commandFound.desc);
 
-				let commandArgs: any[] = [];
 				if (commandFound.args) {
-					commandFound.args.forEach(arg => {
-                        commandArgs.push(`• ${arg.options}`);
-					});
-
-					embed.addField('`Options`', commandArgs.join('\n'));
+                    embed.addField('`Options`',
+                    stripIndents`
+                    ${commandFound.args.map(arg => '•' + arg.options).join('\n')}
+                    `)
 				}
 
 

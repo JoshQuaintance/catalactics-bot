@@ -1,9 +1,10 @@
-import { CommandsType } from '../utils/cmd-def.int';
+import { CommandsType } from '../../utils/interfaces';
 import { MessageEmbed } from 'discord.js';
 
 export const ping: CommandsType = {
 	prefix: 'ping',
-	desc: 'Pings the Bot, and it will reply with a message containing the Ping of the bot.',
+    desc: 'Pings the Bot, and it will reply with a message containing the Ping of the bot.',
+    category: 'Utility',
 	command: async msg => {
         try {
             let pingMsg = await msg.channel.send(new MessageEmbed()

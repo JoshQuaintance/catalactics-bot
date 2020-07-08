@@ -4,7 +4,7 @@ const client = new Client();
 import lastCalled from '../data/lastCaller.json';
 import commandUsed from './commandUsed';
 import { getSettings } from './get-settings';
-import { CommandsType } from './cmd-def.int';
+import { CommandsType } from './interfaces';
 const logCommands = getSettings().LOG_COMMAND;
 
 

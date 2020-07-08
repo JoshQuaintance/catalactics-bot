@@ -2,17 +2,13 @@ import Discord, { Message, Client, TextChannel, MessageEmbed } from 'discord.js'
 import logCommand from './utils/logCalledCommand';
 import cmdNotFound from './utils/notFound';
 import wakeUpTime from './utils/getWakeTime';
-import RoleType from './utils/db-defs/roleDB.int';
-import { CommandsType } from './utils/cmd-def.int';
-// import { promises } from 'fs';
-let CMD: CommandsType[] = [];
+import { RolesDbInt } from './utils/interfaces';
+import { CommandsType } from './utils/interfaces';
+import mongoose from 'mongoose';
 
-
+let CommandList: CommandsType[] = [];
 const client = new Client();
-// const { readdir } = promises;
-
-const cl = (...args: any[]) => args.forEach(c => console.log(c));
-import { getAllDaCommands } from './cmd/commands';
+import { getAllCommands } from './commands/commands';
 
 /**
  * Settings
@@ -21,29 +17,13 @@ import { getSettings } from './utils/get-settings.js';
 const settings = getSettings();
 const token = getSettings().TOKEN;
 const prefix = getSettings().PREFIX;
-const mongoose = require('mongoose');
-const URI = getSettings().MONGO_URI;
-const botLogCh = getSettings().BOT_LOG_CHANNEL;
-const logWhenOnline = getSettings().LOG_WHEN_ONLINE;
 
 /**
  * Schemas for MongoDB
  */
-const roleSchema = new mongoose.Schema({
-	serverName: { type: String, required: true },
-	roleName: { type: String, required: true },
-	roleId: { type: String, required: true },
-	rawPosition: Number,
-	userNum: Number,
-	desc: String
-});
+import { commandSchema, roleSchema } from './utils/schemas';
 
-const commandUsageSchema = new mongoose.Schema({
-	prefix: { type: String, required: true },
-	amountCalled: Number
-});
 
-// ----
 
 // Login
 client.login(token);
@@ -51,12 +31,14 @@ client.login(token);
  * When the bot is ready (Up), it will log some active embed
  */
 client.once('ready', async () => {
-    await getAllDaCommands().then(val => {CMD = val});
+    await getAllCommands.then(COMMANDS => CommandList = (COMMANDS as CommandsType[]));
+
     const startTime: string = wakeUpTime();
+    getAllRoles();
+    setAllCommands();
+	console.log(`Logged in as ${client.user!.tag}`);
 
-	cl(`Logged in as ${client.user!.tag}`);
-
-	if (logWhenOnline) {
+	if (getSettings().LOG_WHEN_ONLINE) {
 		let msg: Discord.MessageEmbed = new MessageEmbed()
 			.setColor('#21ed4a')
 			.setTitle('BOT Online')
@@ -64,12 +46,10 @@ client.once('ready', async () => {
 			.addField('Online', `Today at ${startTime}`)
 			.setFooter('Listening for commands');
 
-		let loggingCh = client.channels.cache.find(ch => (ch as TextChannel).name == botLogCh);
+		let loggingCh = client.channels.cache.find(ch => (ch as TextChannel).name == getSettings().BOT_LOG_CHANNEL);
 		(loggingCh! as TextChannel).send(msg);
 	} else return;
 
-	getAllRoles();
-	setAllCommands();
 	// client.guilds.cache.forEach(guild => console.log(guild));
 });
 
@@ -77,27 +57,26 @@ client.once('ready', async () => {
  * Commands
  * TODO : Change way of getting commands into using files, instead of objects.
  */
-// import { getSettings } from './utils/get-settings';
-
 client.on('message', msg => {
 	if (msg.author.bot) return;
 	let x = client.channels.cache.find(ch => (ch as TextChannel).name == 'command-logs');
 	if (msg.content.startsWith(prefix)) {
-		for (var cmd of CMD) {
+        // console.log(CommandList)
+		for (var cmd of CommandList) {
 			var msgArray = msg.content.split(' ');
 
 			const command = msgArray[0];
 			var cmdRun: string = command.slice(1);
 
 			if (cmdRun == cmd.prefix) {
-				cmd.command(msg, { client, settings, CMD});
+				cmd.command(msg, { client, settings, CommandList});
 				logCommand(msg, cmd, x as Discord.Channel);
 				break;
 			}
 		}
 
 		if (cmdRun! !== cmd!.prefix && !msg.author.bot) {
-			let closeTo = cmdNotFound(CMD, msg.content);
+			let closeTo = cmdNotFound(CommandList, msg.content);
 			let sryEmbed = new MessageEmbed()
 				.setColor('#eb4034')
 				.setTitle('Command Not Found!')
@@ -189,7 +168,7 @@ client.on('roleUpdate', (old, updated) => {
 	try {
 		let Role = mongoose.model('Data', roleSchema, updated.guild.name);
 
-		Role.findOne({ roleId: updated.id }, (err: any, data: RoleType) => {
+		Role.findOne({ roleId: updated.id }, (err: any, data: RolesDbInt) => {
 			if (err) throw err;
 
 			data.rawPosition = updated.rawPosition;
@@ -214,7 +193,7 @@ function getAllRoles(): void {
                  */
 				const Role = mongoose.model('Data', roleSchema, guild.name);
 
-				Role.findOne({ roleId: role.id }, (err: any, data: RoleType) => {
+				Role.findOne({ roleId: role.id }, (err: any, data: RolesDbInt) => {
 					if (err || !data) {
 						const newRole = new Role({
 							serverName: guild.name,
@@ -252,13 +231,13 @@ function getAllRoles(): void {
 /**
  * Store all commands
  */
-async function setAllCommands() {
+function setAllCommands() {
 	try {
-		await CMD.forEach(file => {
+		CommandList.forEach(file => {
 			// Get all the guilds the bot is in, and for every guild it's on
 			client.guilds.cache.forEach(guild => {
 				// Get collection
-				const Role = mongoose.model('Commands', commandUsageSchema, guild.name);
+				const Role = mongoose.model('Commands', commandSchema, guild.name);
 
 				// Find the specific command using the prefix.
 				Role.findOne({ prefix: file.prefix }, (err: any, data: CommandsType) => {
@@ -284,7 +263,7 @@ async function setAllCommands() {
 /**
  * Exports some necessary variables
  */
-export { roleSchema, commandUsageSchema, getAllRoles };
+export { roleSchema, commandSchema, getAllRoles };
 
 /*
 guild.roles.cache.forEach(role => {

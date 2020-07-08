@@ -1,8 +1,8 @@
 import { Message, MessageEmbed } from 'discord.js';
 import mongoose from 'mongoose';
-import { getSettings } from '../get-settings';
-import { roleSchema } from '../../index';
-import RoleType from '../db-defs/roleDB.int';
+import { getSettings } from '../../../utils/get-settings';
+import { roleSchema } from '../../../index';
+import { RolesDbInt } from '../../../utils/interfaces';
 const URI = getSettings().MONGO_URI;
 
 mongoose.connect(URI, { useNewUrlParser: true, useUnifiedTopology: true })
@@ -15,7 +15,7 @@ mongoose.connect(URI, { useNewUrlParser: true, useUnifiedTopology: true })
  */
 export default function info(msg: Message, role: string) {
 	let roleId = role.match(/\d/g)!.join('');
-	let roleFound = msg.guild!.roles.cache.get(<string>roleId);
+	let roleFound = msg.guild!.roles.cache.get(roleId);
 	let currentGuildIn = msg.guild!.toString();
 	let roleName = roleFound!.name;
 	if (roleFound == null)
@@ -24,7 +24,7 @@ export default function info(msg: Message, role: string) {
 		);
 	const Role = mongoose.model('Data', roleSchema, currentGuildIn);
 
-	Role.findOne({ roleId: roleId }, (err: any, data: RoleType) => {
+	Role.findOne({ roleId: roleId }, (err: any, data: RolesDbInt) => {
 		if (err) throw err;
 		if (data.desc !== 'No Description Added') {
             let embed = new MessageEmbed()

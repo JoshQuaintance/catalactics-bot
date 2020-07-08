@@ -1,6 +1,6 @@
 import { Message, Client } from 'discord.js';
 import mongoose from 'mongoose';
-import { getSettings } from '../../utils/get-settings';
+import { getSettings } from '../../../utils/get-settings';
 const URI = getSettings().MONGO_URI;
 
 mongoose

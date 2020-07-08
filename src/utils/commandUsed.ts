@@ -2,9 +2,9 @@ import { Message, Guild, User } from 'discord.js';
 import { getSettings } from '../utils/get-settings.js';
 const URI = getSettings().MONGO_URI;
 import mongoose from 'mongoose';
-import { commandUsageSchema } from '../index';
-import { CommandsType } from './cmd-def.int';
-import { CommandDbType } from './db-defs/commandDB.int';
+import { commandSchema } from './schemas';
+import { CommandsType } from './interfaces';
+import { CommandsDbInt } from './interfaces';
 
 
 
@@ -21,10 +21,10 @@ export default async function commandUsed(msg: Message, cmd: CommandsType) {
     let guildName = msg.guild!.toString();
 
 	// Get the collection
-	const Role = mongoose.model('Commands', commandUsageSchema, guildName);
+	const Role = mongoose.model('Commands', commandSchema, guildName);
 
 	// Find the document from the collection by it's prefix using the command's prefix
-	await Role.findOne({ prefix: cmd.prefix }, (err, data: CommandDbType) => {
+	await Role.findOne({ prefix: cmd.prefix }, (err: any, data: CommandsDbInt) => {
 		// If there is an error getting the document throw it
         if (err) return console.log(err);
         if(msg.author.id == msg.guild!.owner!.id)

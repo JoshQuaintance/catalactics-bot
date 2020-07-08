@@ -1,9 +1,9 @@
 import { Message } from 'discord.js';
 import mongoose from 'mongoose';
-import { getSettings } from '../get-settings';
-import { roleSchema } from '../../index';
-import { memberHasPerm } from '../memberHasPerm';
-import RoleType from '../db-defs/roleDB.int';
+import { getSettings } from '../../../utils/get-settings';
+import { roleSchema } from '../../../index';
+import { memberHasPerm } from '../../../utils/memberHasPerm';
+import { RolesDbInt } from '../../../utils/interfaces';
 const URI = getSettings().MONGO_URI;
 
 mongoose
@@ -38,7 +38,7 @@ export default (msg: Message, role: string) => {
 			return msg.channel.send('I am sorry, you did not specify any description for the role.');
 		} else {
 			const Role = mongoose.model('Data', roleSchema, currentGuildIn as string);
-			Role.findOne({ roleId: roleId }, (err: any, data: RoleType) => {
+			Role.findOne({ roleId: roleId }, (err: any, data: RolesDbInt) => {
 				if (data.desc == 'No Description Added') {
 					data.desc = description;
 

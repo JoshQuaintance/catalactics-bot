@@ -1,9 +1,10 @@
 import { MessageEmbed } from 'discord.js';
-import { CommandsType } from '../utils/cmd-def.int';
+import { CommandsType } from '../../utils/interfaces';
 
 export const about: CommandsType = {
 	prefix: 'about',
-	desc: 'Give the BOT a little description of itself. They deserve some too.',
+    desc: 'Give the BOT a little description of itself. They deserve some too.',
+    category: 'Information',
 	command: (msg, { settings }) => {
 		try {
 			let aboutMsg = new MessageEmbed()

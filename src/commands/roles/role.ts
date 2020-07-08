@@ -1,22 +1,12 @@
-import { Message } from 'discord.js';
-import { getSettings } from '../utils/get-settings';
-import mongoose from 'mongoose';
-// import { roleSchema } from '../index';
-const URI = getSettings().MONGO_URI;
-
-mongoose
-	.connect(URI, { useNewUrlParser: true, useUnifiedTopology: true })
-	.catch(err => (err ? console.log(err) : undefined));
-
 //Functions
-import desc from '../utils/role-utils/desc';
-import roleCheck from '../utils/role-utils/roleCheck';
+import desc from './role-utils/desc';
+import roleCheck from './role-utils/roleCheck';
 
 //! Make Give Function
-import give from '../utils/role-utils/give';
+import give from './role-utils/give';
 
-import info from '../utils/role-utils/info';
-import { CommandsType } from '../utils/cmd-def.int';
+import info from './role-utils/info';
+import { CommandsType } from '../../utils/interfaces';
 /**
  * Function for role editing and infos.
  * @param {Discord.Message} msg Message Object
@@ -41,7 +31,7 @@ export const role: CommandsType = {
         'give @ServerOwner @Catalactics'
     ],
 	desc: 'Advanced role command, additional arguments will change how it react.',
-
+    category: 'Information',
 	command: (msg, {client, settings}) => {
 		try {
 			const msgArray = msg.content.split(' ');

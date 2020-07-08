@@ -1,32 +1,31 @@
 import { Message, MessageEmbed } from 'discord.js';
 import mongoose from 'mongoose';
-import { commandUsageSchema } from '../index';
-import { CommandDbType } from '../utils/db-defs/commandDB.int';
-import { CommandsType } from '../utils/cmd-def.int';
-import { config } from 'dotenv/types';
+import { commandSchema } from '../../utils/schemas';
+import { CommandsDbInt, CommandsType } from '../../utils/interfaces';
 
 export const help: CommandsType = {
 	prefix: 'help',
 	additionalParam: '[Command]',
 	desc:
-		"Displays all of the commands available. If a command is specified, it will display the description of the command. That's this command",
+        "Displays all of the commands available. If a command is specified, it will display the description of the command. That's this command",
+    category: 'Utility',
 	/**
      * Get all the commands and display it.
      * @param {Discord.Message} msg Message Object
      */
-	command: async function getAllCommands(msg, { settings, CMD }) {
+	command: async function getAllCommands(msg, { settings, CommandList }) {
 		try {
 			// Connect to the database using the URI from the variable file.
 			mongoose.connect(settings.MONGO_URI, { useNewUrlParser: true, useUnifiedTopology: true }).catch(err => {
 				throw err;
 			});
-			const Data = mongoose.model('Commands', commandUsageSchema, msg.guild!.toString());
+			const Data = mongoose.model('Commands', commandSchema, msg.guild!.toString());
 
 			// Gets the argument
 			let splitMsg = msg.content.split(' ')[1];
 
 			// Finds the command using the prefix and return the object.
-			const commandFound = CMD.find((command: any) => command.prefix == splitMsg);
+			const commandFound = CommandList.find((command: any) => command.prefix == splitMsg);
 
 			// If there is no argument, it's going to send the full list
 			if (splitMsg == undefined || commandFound == undefined) {
@@ -37,18 +36,16 @@ export const help: CommandsType = {
 						`Hey there ${msg.author}, Here's a full list of all the commands. \n For more information about each commands, type \`${settings.PREFIX}help <command>\``
 					);
 
-				await Data.find({}, (err: any, data: CommandsType[]) => {
-					if (err) throw err;
 
-					let x: any[] = [];
-					data.forEach(cmd => {
+
+					let command: any[] = [];
+					CommandList.forEach(cmd => {
 						if (!cmd.prefix) return;
-						x.push(`\`${cmd.prefix}\``);
+						command.push(`\`${cmd.prefix}\``);
 					});
-					let xx = x.join(' ');
+					let allCmd = command.join(' ');
 
-					embedMsg.addField(`All Commands`, xx);
-				});
+					embedMsg.addField(`All Commands`, allCmd);
 
 				msg.channel.send(embedMsg);
 			} else {
@@ -74,14 +71,24 @@ export const help: CommandsType = {
 				}
 
 
-				if (commandFound.additionalParam) embed.addField('\u200b', 'Required: `<>` | Optional: `[]` \n\u200b');
+                if (commandFound.additionalParam)
+                    embed.addField('\u200b', 'Required: `<>` | Optional: `[]` \n\u200b');
 
+                if (commandFound.examples) {
+                    let fields: string[] = [];
+                    (commandFound.examples as string[]).forEach((ex: string) => {
+                        fields.push(`\`${ex}\``);
+                    });
+                    fields.push('\u200b')
+                    embed.addField('Examples', fields.join('\n'))
+                }
 
-                await Data.findOne({ prefix: commandFound.prefix }, (err: any, data: CommandDbType) => {
-                    if (err) throw err;
+                await Data.findOne({ prefix: commandFound.prefix }, (err: any, data: CommandsDbInt) => {
+                        if (err) throw err;
 
-                    embed.addField('Amount Called in Server', `${data.amountCalled} times`);
-                });
+                        embed.addField('Amount Called in Server', `${data.amountCalled} times`);
+                    }
+                );
 
 				msg.channel.send(embed);
 			}

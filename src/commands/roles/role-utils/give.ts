@@ -1,5 +1,5 @@
 import { Message} from 'discord.js';
-import { memberHasPerm } from '../memberHasPerm';
+import { memberHasPerm } from '../../../utils/memberHasPerm';
 /**
  * Function that gives a user a specific role
  * @param {Discord.Message} msg Message Object

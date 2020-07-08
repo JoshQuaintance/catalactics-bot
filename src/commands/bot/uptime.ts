@@ -1,5 +1,5 @@
 import { MessageEmbed } from 'discord.js';
-import { CommandsType } from '../utils/cmd-def.int';
+import { CommandsType } from '../../utils/interfaces';
 
 export function getUptime(time: number): string[] {
 	let totalSeconds = time;
@@ -34,29 +34,28 @@ export function getUptime(time: number): string[] {
 }
 
 export const uptime: CommandsType = {
+	prefix: 'uptime',
+	desc: 'Shows the uptime of the bot',
+	category: 'Information',
+	command: (msg, { client }): void => {
+		try {
+			let totalSeconds = client!.uptime! / 1000;
+			let up = getUptime(totalSeconds);
+			let days = up[0],
+				hours = up[1],
+				minutes = up[2],
+				seconds = up[3];
 
-	prefix          : 'uptime',
-	desc            : 'Shows the uptime of the bot',
-	command         : (msg, { client }): void => {
-        try {
-            let totalSeconds = client!.uptime! / 1000;
-            let up = getUptime(totalSeconds);
-            let days = up[0],
-                hours = up[1],
-                minutes = up[2],
-                seconds = up[3];
+			let embed = new MessageEmbed()
+				.setColor('#cf43e8')
+				.setTitle('Uptime')
+				.setDescription(' ')
+				.addField('Bot Uptime', `${days} ${hours} ${minutes} ${seconds}`);
 
-            let embed = new MessageEmbed()
-                .setColor('#cf43e8')
-                .setTitle('Uptime')
-                .setDescription(' ')
-                .addField('Bot Uptime', `${days} ${hours} ${minutes} ${seconds}`);
-
-            msg.channel.send(embed);
-        } catch (err) {
-            console.error(err);
-        }
-
+			msg.channel.send(embed);
+		} catch (err) {
+			console.error(err);
+		}
 	}
 };
 

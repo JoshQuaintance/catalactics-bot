@@ -1,13 +1,14 @@
 import { MessageEmbed } from 'discord.js';
 import getRepoInfo from 'git-repo-info';
-import { CommandsType } from '../utils/cmd-def.int';
+import { CommandsType } from '../../utils/interfaces';
 import { getUptime } from './uptime';
 const info = getRepoInfo();
 require('dotenv').config();
 
 export const stats: CommandsType = {
 	prefix: 'stats',
-	desc: 'Shows the status of the bot.',
+    desc: 'Shows the status of the bot.',
+    category: 'Information',
 	command: async function stats(msg, { client }) {
 		try {
 			// The message embed to send
@@ -34,8 +35,10 @@ export const stats: CommandsType = {
 
 			embed.addField(`Uptime`, `\\>    ${days} ${hours} ${minutes} ${seconds}`);
 
-			// If version is undefined, it will get a different approach locally
-			const hash = process.env.SOURCE_VERSION!.slice(0, 10) || info.abbreviatedSha;
+            // If version is undefined, it will get a different approach locally
+            const envVar = process.env.SOURCE_VERSION;
+            console.log(envVar, envVar == undefined);
+			const hash = envVar == undefined ? info.abbreviatedSha : envVar.slice(0, 10);
 
 			// Adds a field to the embed
 			embed.addField(

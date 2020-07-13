@@ -2,9 +2,8 @@ import mongoose from 'mongoose';
 import * as moment from 'moment';
 import { Message, MessageEmbed, Role, PermissionString } from 'discord.js';
 import { stripIndents } from 'common-tags';
-import { getSettings } from '../../utils/get-settings';
-import { roleSchema } from '../../index';
-import { RolesDbInt, CommandsType } from '../../utils/interfaces';
+import { getSettings } from '../../../utils/get-settings';
+import { RolesDbInt, CommandsType } from '../../../utils/interfaces';
 const URI = getSettings().MONGO_URI;
 
 mongoose.connect(URI, { useNewUrlParser: true, useUnifiedTopology: true })
@@ -45,20 +44,17 @@ const PERMS: PermissionsInt = {
 	USE_VAD: 'Use voice activity',
 };
 
-const role_info: CommandsType = {
-    prefix: 'role-info',
-    additionalParam: '<Role>',
-    desc: 'Give an info about the role',
-    category: 'Information',
-    command: async msg => {
-        try {
+export default async function info(msg: Message) {
+        try
+        {
             let mentioned = msg.mentions.roles.first();
-            let text = msg.content.split(' ').slice(1).join(' ');
+            console.log()
+            let text = msg.content.split(' ').slice(2).join(' ');
 
             let role = mentioned == undefined
                 ? text == undefined
                     ? msg.guild!.roles.cache.find(role => role.name === "@everyone")
-                    : msg.guild!.roles.cache.find(role => role.name.toLowerCase() == text)
+                    : msg.guild!.roles.cache.find(role => role.name.toLowerCase() == text.toLowerCase())
                 : msg.guild!.roles.cache.get(mentioned!.id);
 
             const permissions = Object.keys(PERMS).filter(
@@ -91,10 +87,10 @@ const role_info: CommandsType = {
             )
 
             msg.channel.send(embed);
-        } catch (err) {
+        }
+        catch (err)
+        {
             console.error(err);
         }
-    }
 }
 
-export default role_info;

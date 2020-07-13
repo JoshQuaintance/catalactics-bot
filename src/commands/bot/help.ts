@@ -65,7 +65,7 @@ export const help: CommandsType = {
 				if (commandFound.args) {
                     embed.addField('`Options`',
                     stripIndents`
-                    ${commandFound.args.map(arg => '•' + arg.options).join('\n')}
+                    ${commandFound.args.map(arg => '• ' + arg).join('\n')}
                     `)
 				}
 

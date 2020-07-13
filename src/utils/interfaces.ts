@@ -18,17 +18,12 @@ interface CommandsArgs
     CommandList: CommandsType[];
 }
 
-interface argsArguments
-{
-    options: string;
-    arguments?: stringElse;
-}
 
 export interface CommandsType
 {
     prefix: string;
     additionalParam?: string;
-    args?: argsArguments[];
+    args?: string[];
     examples?: stringElse;
     desc: string;
     category: string;

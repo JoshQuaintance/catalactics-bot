@@ -81,7 +81,8 @@ client.on('message', msg => {
 				.setColor('#eb4034')
 				.setTitle('Command Not Found!')
 				.setDescription(
-					`I'm sorry ${msg.author}, I cannot find a command with the prefix of \`${msg.content}\``
+                    //@ts-ignore
+					`I'm sorry ${msg.author}, I cannot find a command with the prefix of \`${cmdRun}\``
 				);
 
 			if (closeTo.length > 0)
@@ -211,7 +212,7 @@ function getAllRoles(): void {
 						data.rawPosition = role.rawPosition;
 
                         data.userNum = role.members.size;
-                        
+
 						data.save((err: any) => {
 							if (err) throw err;
 						});

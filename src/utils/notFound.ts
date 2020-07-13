@@ -12,8 +12,8 @@ const PREFIX = getSettings().PREFIX;
  */
 export default function cmdNotFound(command: any[], msg: string) {
 
-    const firstLetter    = msg.toString().split(" ")[0][1];
-    let regex   = new RegExp(`^${firstLetter}`, "g");
+    const firstLetter = msg.toString().split(" ")[0][1];
+    let regex = new RegExp(`^${firstLetter}`, "g");
     let close: string[] = [];
     let decided;
     command.forEach(cmd => {

@@ -35,7 +35,9 @@ export default function give(msg: Message) {
             else {
                 userMention!.roles.add(role!)
                 .then(user => msg.channel.send(`${user} has been given the role ${role}`))
-                .catch(err => msg.channel.send(`Failed to give the user permission.`))
+                .catch(err => {
+                    return msg.channel.send(`I'm sorry ${msg.author}, you do not have the permission to give the role ${role}`)
+                })
             }
         } else if(roleMention!.name == '@everyone') {
             return msg.channel.send(

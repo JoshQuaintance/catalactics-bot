@@ -82,7 +82,7 @@ client.on('message', msg => {
 				.setTitle('Command Not Found!')
 				.setDescription(
                     //@ts-ignore
-					`I'm sorry ${msg.author}, I cannot find a command with the prefix of \`${cmdRun}\``
+					`I'm sorry ${msg.author}, I cannot find a command with the prefix of \`${prefix}${cmdRun}\``
 				);
 
 			if (closeTo.length > 0)

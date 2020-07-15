@@ -172,7 +172,7 @@ client.on('roleUpdate', (old, updated) => {
 			data.rawPosition = updated.rawPosition;
 
 			data.save((err: any) => {
-				if (err) throw 'Failed Saving : ' + err;
+				if (err) throw new Error('Failed Saving : ' + err);
 			});
 		});
 	} catch (err) {

@@ -1,0 +1,21 @@
+name: Deploy to Heroku
+
+on:
+  push:
+    branches: [ master ]
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@master
+      - uses: actions/setup-node@master
+        with:
+          node-version: 12
+      - run: npm ci
+      - run: npm run build
+      - uses: AkhileshNS/heroku-deploy@v3.2.6
+        with:
+          heroku_api_key: ${{secrets.HEROKU_API_KEY}}
+          heroku_app_name: "catalactics-bot"
+          heroku_email: "hasianjoshua@gmail.com"

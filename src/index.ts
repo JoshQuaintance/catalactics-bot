@@ -23,8 +23,6 @@ const prefix = getSettings().PREFIX;
  */
 import { commandSchema, roleSchema } from './utils/schemas';
 
-
-
 // Login
 client.login(token);
 /**
@@ -32,7 +30,6 @@ client.login(token);
  */
 client.once('ready', async () => {
     await getAllCommands.then(COMMANDS => CommandList = (COMMANDS as CommandsType[]));
-
     const startTime: string = wakeUpTime();
     getAllRoles();
     setAllCommands();

@@ -1,5 +1,5 @@
-import { promises } from 'fs';
 import { CommandsType } from '../utils/interfaces';
+import { promises } from 'fs';
 const { readdir } = promises;
 
 /**
@@ -15,9 +15,9 @@ export const getAllCommands: Promise<CommandsType[] | void> = new Promise(async 
     const find = await readdir(__dirname);
     find.forEach(file => {
         // If the file is this file, then return, don't do anything
-        if (file == 'commands.js') return;
+        if (file.includes('commands.')) return;
 
-        if (file.includes('.js') == false) {
+        if (file.includes('.') == false) {
             let findInFile: Promise<string[]> = new Promise((resolve, rejects) => {
                 let files = readdir(`${__dirname}/${file}`);
                 resolve(files);
@@ -25,7 +25,7 @@ export const getAllCommands: Promise<CommandsType[] | void> = new Promise(async 
 
             findInFile.then(val => val.forEach(jsFile => {
                 // console.log(jsFile);
-                if(jsFile.includes('.js') == false) return;
+                if(jsFile.includes('.') == false) return;
 
                 import(`./${file}/${jsFile}`).then(cmd => {
                         // console.log(cmd.default)

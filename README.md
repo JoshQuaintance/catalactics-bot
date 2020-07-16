@@ -1,6 +1,6 @@
 # Catalactics Bot
 
-![Checks](https://github.com/JoshuaPelealu/catalactics-bot/workflows/Checks/badge.svg?branch=master&event=push)
+![Checks](https://github.com/JoshuaPelealu/catalactics-bot/workflows/Checks/badge.svg?branch=master&event=push) ![Deploy to Heroku](https://github.com/JoshuaPelealu/catalactics-bot/workflows/Deploy%20to%20Heroku/badge.svg?branch=master&event=deployment)
 
 Welcome to my GitHub repository for my Discord Bot. This bot is MIT Licensed, that means you can use it as is, and there is not guarantee on the product. This project is open source and you can contribute on it, check [Contribute](#contributing).
 

@@ -13,7 +13,7 @@ import { getAllCommands } from './commands/commands';
 /**
  * Settings
  */
-import { getSettings } from './utils/get-settings.js';
+import { getSettings } from './utils/get-settings';
 const settings = getSettings();
 const token = getSettings().TOKEN;
 const prefix = getSettings().PREFIX;
@@ -28,12 +28,13 @@ client.login(token);
 /**
  * When the bot is ready (Up), it will log some active embed
  */
+
 client.once('ready', async () => {
     await getAllCommands.then(COMMANDS => CommandList = (COMMANDS as CommandsType[]));
-    const startTime: string = wakeUpTime();
     getAllRoles();
     setAllCommands();
-	console.log(`Logged in as ${client.user!.tag}`);
+    const startTime: string = wakeUpTime();
+    console.log(`Logged in as ${client.user!.tag}`);
 
 	if (getSettings().LOG_WHEN_ONLINE) {
 		let msg: Discord.MessageEmbed = new MessageEmbed()
@@ -45,9 +46,8 @@ client.once('ready', async () => {
 
 		let loggingCh = client.channels.cache.find(ch => (ch as TextChannel).name == getSettings().BOT_LOG_CHANNEL);
 		(loggingCh! as TextChannel).send(msg);
-	} else return;
-
-	// client.guilds.cache.forEach(guild => console.log(guild));
+    } else return;
+    process.exit
 });
 
 /**
@@ -253,6 +253,35 @@ function setAllCommands() {
 		console.error(err);
 	}
 }
+
+import { stripIndents } from 'common-tags';
+
+export async function updateReadme() {
+    await client.login(token);
+    await getAllCommands.then(COMMANDS => CommandList = (COMMANDS as CommandsType[]));
+    let tableData = stripIndents`
+    ## Commands Available
+    | Prefix | Description |
+    | :-: | :-: |
+    ${CommandList.map(command => '| ' + command.prefix + ' | ' + command.desc + ' |').join('\n')}
+
+    ## Dependencies
+    `
+    await import('fs').then(async fs => {
+
+        let data = fs.readFileSync('README.md', 'utf-8')
+
+        let results = data.replace(/## Commands Available.*## Dependencies/gs, tableData);
+        console.log(results);
+
+        fs.writeFileSync('README.md', results, 'utf-8')
+
+    });
+
+    console.log('Job Done, Exiting now...');
+    client.destroy();
+    process.exit();
+};
 
 /**
  * Exports some necessary variables

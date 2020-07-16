@@ -1,6 +1,6 @@
 # Catalactics Bot
 
-![Checks](https://github.com/JoshuaPelealu/catalactics-bot/workflows/Checks/badge.svg?branch=master&event=push) ![Deploy to Heroku](https://github.com/JoshuaPelealu/catalactics-bot/workflows/Deploy%20to%20Heroku/badge.svg?branch=master&event=deployment)
+![Checks](https://github.com/JoshuaPelealu/catalactics-bot/workflows/Checks/badge.svg?branch=master&event=push) ![Deploy to Heroku](https://github.com/JoshuaPelealu/catalactics-bot/workflows/Deploy%20to%20Heroku/badge.svg?branch=master)
 
 Welcome to my GitHub repository for my Discord Bot. This bot is MIT Licensed, that means you can use it as is, and there is not guarantee on the product. This project is open source and you can contribute on it, check [Contribute](#contributing).
 
@@ -132,7 +132,7 @@ That's all. The bot should log an embed with the time it was woken up and accoun
 
 ## Dependencies
 
-| Depedency | Version |
+| Dependency | Version |
 | :-: | :-: |
 | [discord.js](https://discord.js.org) | `^12.2.0` |
 | [dotenv](https://www.npmjs.com/package/dotenv) | `^8.2.0` |

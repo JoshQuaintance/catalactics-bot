@@ -12,8 +12,19 @@ jobs:
       - uses: actions/setup-node@master
         with:
           node-version: 12
-      - run: npm ci
-      - run: npm i typescript
-      - run: npm i ts-node
-      - run: npm run update-readme
 
+      - name: Clean Install Dependencies
+        run: npm ci
+
+      - name: Install Typescript
+        run: npm i typescript
+
+      - name: Install ts-node
+        run: npm i ts-node
+
+      - name: Run Script (update-readme)
+        run: npm run update-readme
+        env:
+          CI: true
+          DISCORD_TOKEN: ${{ secrets.DISCORD_TOKEN }}
+          MONGO_URI: ${{ secrets.MONGO_URI }}

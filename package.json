@@ -31,7 +31,7 @@
 		"mongoose": "^5.9.19",
 		"request": "^2.88.2",
 		"ts-node": "^8.10.2",
-		"typescript": "^3.9.6"
+		"typescript": "^3.9.7"
 	},
 	"devDependencies": {
 		"@types/common-tags": "^1.8.0",

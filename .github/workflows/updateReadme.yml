@@ -1,0 +1,17 @@
+name: Update Readme
+
+on:
+  push:
+    branches: [ master ]
+
+jobs:
+  update_readme:
+    runs_on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@master
+      - uses: actions/setup-node@master
+        with:
+          node-version: 12
+      - run: npm ci
+      - run: npm run update-readme
+      

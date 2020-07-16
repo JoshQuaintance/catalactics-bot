@@ -263,9 +263,7 @@ export async function updateReadme() {
     ## Commands Available
     | Prefix | Description |
     | :-: | :-: |
-    ${CommandList.map(command => '| ' + command.prefix + ' ' + command.additionalParam + ' | ' + command.desc + ' |').join('\n')}
-
-    Required: \`<>\` || Optional \`[]\`
+    ${CommandList.map(command => '| ' + command.prefix + ' | ' + command.desc + ' |').join('\n')}
 
     ## Dependencies
     `

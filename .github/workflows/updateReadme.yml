@@ -2,7 +2,7 @@ name: Update Readme
 
 on:
   push:
-    branches: [ testing ]
+    branches: [ master ]
 
 jobs:
   update_readme:

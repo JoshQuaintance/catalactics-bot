@@ -9,6 +9,9 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@master
+        with:
+          persist-credentials: false
+          fetch-depth: 0
       - uses: actions/setup-node@master
         with:
           node-version: 12
@@ -28,15 +31,15 @@ jobs:
           CI: true
           DISCORD_TOKEN: ${{ secrets.DISCORD_TOKEN }}
           MONGO_URI: ${{ secrets.MONGO_URI }}
-      - name: switching from HTTPS to SSH
-        run: git remote set-url origin ${{ secrets.ssh }}
-      - name: check for changes
-        run: git status
-      - name: stage changed files
-        run: git add .
-      - name: commit changed files
-        run: git commit -m "Auto updating README.md"
-      - name: fetch from master
-        run: git fetch origin master
-      - name: push code to master
-        run: git push origin HEAD:master
+
+      - name: Commit files
+        run: |
+          git config --local user.email "45566099+JoshuaPelealu@users.noreply.github.com"
+          git config --local user.name "Joshua Pelealu"
+          git commit -m "Auto Update README.md" -a
+      - name: Push changes
+        uses: ad-m/github-push-action@master
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+
+

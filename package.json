@@ -11,8 +11,8 @@
 		"update-readme": "ts-node ./src/readmeScript.ts",
 		"test": "jest --passWithNoTests",
 		"build": "tsc",
-        "buildWatch": "tsc --watch",
-        "postinstall": "npm run build"
+		"buildWatch": "tsc --watch",
+		"postinstall": "npm run build"
 	},
 	"engines": {
 		"node": "12.x"
@@ -30,6 +30,7 @@
 		"mongodb": "^3.5.9",
 		"mongoose": "^5.9.19",
 		"request": "^2.88.2",
+		"ts-node": "^8.10.2",
 		"typescript": "^3.9.6"
 	},
 	"devDependencies": {

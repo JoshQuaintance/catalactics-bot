@@ -2,7 +2,6 @@ import { MessageEmbed } from 'discord.js';
 import getRepoInfo from 'git-repo-info';
 import { CommandsType } from '../../utils/interfaces';
 import { getUptime } from './uptime';
-const info = getRepoInfo();
 require('dotenv').config();
 
 export const stats: CommandsType = {
@@ -38,7 +37,7 @@ export const stats: CommandsType = {
             // If version is undefined, it will get a different approach locally
             const envVar = process.env.SOURCE_VERSION;
             console.log(envVar, envVar == undefined);
-			const hash = envVar == undefined ? info.abbreviatedSha : envVar.slice(0, 10);
+			const hash = envVar == undefined ? getRepoInfo().abbreviatedSha : envVar.slice(0, 10);
 
 			// Adds a field to the embed
 			embed.addField(

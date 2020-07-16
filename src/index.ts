@@ -272,7 +272,6 @@ export async function updateReadme() {
         let data = fs.readFileSync('README.md', 'utf-8')
 
         let results = data.replace(/## Commands Available.*## Dependencies/gs, tableData);
-        console.log(results);
 
         fs.writeFileSync('README.md', results, 'utf-8')
 

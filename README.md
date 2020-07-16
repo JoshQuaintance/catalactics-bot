@@ -1,6 +1,6 @@
 # Catalactics Bot
 
-[![JoshuaPelealu](https://circleci.com/gh/JoshuaPelealu/catalactics-bot.svg?style=svg)](https://circleci.com/gh/JoshuaPelealu/catalactics-bot)
+![Checks](https://github.com/JoshuaPelealu/catalactics-bot/workflows/Checks/badge.svg?branch=master&event=push)
 
 Welcome to my GitHub repository for my Discord Bot. This bot is MIT Licensed, that means you can use it as is, and there is not guarantee on the product. This project is open source and you can contribute on it, check [Contribute](#contributing).
 

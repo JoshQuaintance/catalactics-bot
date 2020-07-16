@@ -13,5 +13,6 @@ jobs:
         with:
           node-version: 12
       - run: npm ci
+      - run: npm i ts-node
       - run: npm run update-readme
 

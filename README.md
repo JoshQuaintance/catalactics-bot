@@ -129,6 +129,7 @@ That's all. The bot should log an embed with the time it was woken up and accoun
 ## Commands Available
 | Prefix | Description |
 | :-: | :-: |
+| wondeful | wonderful |
 | about | Give the BOT a little description of itself. They deserve some too. |
 | help | Displays all of the commands available. If a command is specified, it will display the description of the command. That's this command |
 | stats | Shows the status of the bot. |

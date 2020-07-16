@@ -1,5 +1,5 @@
 import { Message, Guild, User } from 'discord.js';
-import { getSettings } from '../utils/get-settings.js';
+import { getSettings } from '../utils/get-settings';
 const URI = getSettings().MONGO_URI;
 import mongoose from 'mongoose';
 import { commandSchema } from './schemas';

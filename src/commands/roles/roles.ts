@@ -1,5 +1,5 @@
 import { getSettings } from '../../utils/get-settings';
-import { roleSchema } from '../../index.js';
+import { roleSchema } from '../../index';
 import { RolesDbInt, CommandsType } from '../../utils/interfaces';
 import { MessageEmbed } from 'discord.js';
 const mongoose = require('mongoose');

@@ -13,7 +13,7 @@ const { readdir } = promises;
 export const getAllCommands: Promise<CommandsType[] | void> = new Promise(async (resolve, rejects) => {
     const COMMANDS: CommandsType[] = [];
     const find = await readdir(__dirname);
-    find.forEach(file => {
+    find.forEach((file: string | string[]) => {
         // If the file is this file, then return, don't do anything
         if (file.includes('commands.')) return;
 
@@ -42,5 +42,7 @@ export const getAllCommands: Promise<CommandsType[] | void> = new Promise(async 
         }
 
     });
+
     resolve(COMMANDS);
 })
+

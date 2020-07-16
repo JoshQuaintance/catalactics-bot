@@ -1,4 +1,4 @@
-import { getSettings } from './get-settings.js';
+import { getSettings } from './get-settings';
 // import { CommandsType } from './cmd-def.int.js';
 import { Message } from 'discord.js';
 const PREFIX = getSettings().PREFIX;

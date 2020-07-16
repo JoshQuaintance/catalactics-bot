@@ -1,5 +1,4 @@
-import Discord from 'discord.js';
-import { Client, Message, Channel, TextChannel }  from 'discord.js';
+import Discord, { Client, Message, Channel, TextChannel }  from 'discord.js';
 const client = new Client();
 import lastCalled from '../data/lastCaller.json';
 import commandUsed from './commandUsed';

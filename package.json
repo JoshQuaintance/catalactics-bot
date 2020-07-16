@@ -7,7 +7,8 @@
 	"main": "./dist/src/index.js",
 	"scripts": {
 		"start": "node ./dist/index.js",
-		"dev": "nodemon ./dist/index.js",
+        "dev": "nodemon ./dist/index.js",
+        "update-readme": "ts-node ./src/readmeScript.ts",
 		"test": "jest --passWithNoTests",
 		"build": "tsc",
 		"buildWatch": "tsc --watch"

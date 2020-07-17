@@ -264,13 +264,13 @@ export async function updateReadme() {
     | :-: | :-: |
     ${CommandList.map(command => '| ' + command.prefix + ' | ' + command.desc + ' |').join('\n')}
 
-    ##
+    ## Dependencies
     `
     await import('fs').then(async fs => {
 
         let data = fs.readFileSync('README.md', 'utf-8')
 
-        let results = data.replace(/## Commands Available[^#]##/gs, tableData);
+        let results = data.replace(/## Commands Available.*## Dependencies/gs, tableData);
 
         fs.writeFileSync('README.md', results, 'utf-8')
 

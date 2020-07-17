@@ -1,6 +1,6 @@
 # Catalactics Bot
 
-![Checks](https://github.com/JoshuaPelealu/catalactics-bot/workflows/Checks/badge.svg?branch=master&event=push) ![Deploy to Heroku](https://github.com/JoshuaPelealu/catalactics-bot/workflows/Deploy%20to%20Heroku/badge.svg?branch=master)
+![Checks](https://github.com/JoshuaPelealu/catalactics-bot/workflows/Checks/badge.svg?branch=master&event=push)![Deploy to Heroku](https://github.com/JoshuaPelealu/catalactics-bot/workflows/Deploy%20to%20Heroku/badge.svg?branch=master)
 
 Welcome to my GitHub repository for my Discord Bot. This bot is MIT Licensed, that means you can use it as is, and there is not guarantee on the product. This project is open source and you can contribute on it, check [Contribute](#contributing).
 
@@ -30,7 +30,6 @@ Thank you for contributing to this Repository.
 ## Install Necessary Softwares
 
 If you're contributing, before doing anything else, install the following Softwares, these are the necessary tool to run this Bot:
-
 
 | Software | Version | Additional Notes |
 | - | - | - |
@@ -110,7 +109,7 @@ You can get your discord token through the discord portal in the `Bot` section o
 
 
    This is what the whole `.env` would look like without the comments: ![dotEnv File](src/images/.envFile.png)
-8. Open up a terminal in the folder. (If you are using VSCode, you can press ``` CTRL + ` ``` Shortcut)
+8. Open up a terminal in the folder. (If you are using VSCode, you can press `CTRL + `` Shortcut)
 9. Type the following command and hit enter:
 
 ```bash
@@ -127,15 +126,8 @@ node index
 That's all. The bot should log an embed with the time it was woken up and account used inside the channel you specified inside the `.env` file with the variable `BOT_LOG_CHANNEL`. The default value is "bot-logs". If you don't have this channel, it will not log it.
 
 ## Commands Available
-| Prefix | Description |
-| :-: | :-: |
-| about | Give the BOT a little description of itself. They deserve some too. |
-| help | Displays all of the commands available. If a command is specified, it will display the description of the command. That's this command |
-| stats | Shows the status of the bot. |
-| uptime | Shows the uptime of the bot |
-| role | Advanced role command, additional arguments will change how it react. |
-| roles | Gives a list of the roles and a little description of what they do |
-| ping | Pings the Bot, and it will reply with a message containing the Ping of the bot. |
+
+
 
 ## Dependencies
 

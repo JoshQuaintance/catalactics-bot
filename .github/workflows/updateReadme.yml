@@ -42,6 +42,6 @@ jobs:
         uses: ad-m/github-push-action@master
         with:
           github_token: 'c46287dfa64b803c079fb3f68013470d0d40366b'
-          repository: 'catalactics-bot-docs'
+          repository: 'https://github.com/JoshuaPelealu/catalactics-bot-docs'
 
 

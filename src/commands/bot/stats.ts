@@ -14,14 +14,9 @@ export const stats: CommandsType = {
 			let embed = new MessageEmbed().setColor('#FF00FF').setTitle('Catalactics Stats').setDescription(' ');
 
 			// Basic infos
-			embed.addField('Server Name', `\\>    ${msg.guild}`, true);
+			embed.addField('Server Name', `\\>    ${msg.guild}`);
 
-			let nums = 0;
-			await client!.guilds.cache.forEach(() => {
-				nums++;
-			});
-
-			embed.addField('Server Count', `\\>    ${nums}`, true);
+			embed.addField('Server Count', `\\>    ${client.guilds.cache.size}`);
 
 			// get uptime value
 			const time = client!.uptime! / 1000;
@@ -43,7 +38,9 @@ export const stats: CommandsType = {
 			embed.addField(
 				`Commit Version`,
 				`[${hash}](https://github.com/JoshuaPelealu/catalactics-bot/commit/${hash})`
-			);
+            );
+
+            embed.addField(`More Information About Me`, `Visit https://github.com/JoshuaPelealu/catalactics-bot#catalactics-bot`)
 
 			msg.channel.send(embed);
 		} catch (err) {

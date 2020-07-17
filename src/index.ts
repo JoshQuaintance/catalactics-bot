@@ -2,8 +2,7 @@ import Discord, { Message, Client, TextChannel, MessageEmbed } from 'discord.js'
 import logCommand from './utils/logCalledCommand';
 import cmdNotFound from './utils/notFound';
 import wakeUpTime from './utils/getWakeTime';
-import { RolesDbInt } from './utils/interfaces';
-import { CommandsType } from './utils/interfaces';
+import { RolesDbInt,CommandsType } from './utils/interfaces';
 import mongoose from 'mongoose';
 
 let CommandList: CommandsType[] = [];
@@ -15,8 +14,8 @@ import { getAllCommands } from './commands/commands';
  */
 import { getSettings } from './utils/get-settings';
 const settings = getSettings();
-const token = getSettings().TOKEN;
-const prefix = getSettings().PREFIX;
+const token = settings.TOKEN;
+const prefix = settings.PREFIX;
 
 /**
  * Schemas for MongoDB
@@ -36,7 +35,7 @@ client.once('ready', async () => {
     const startTime: string = wakeUpTime();
     console.log(`Logged in as ${client.user!.tag}`);
 
-	if (getSettings().LOG_WHEN_ONLINE) {
+	if (settings.LOG_WHEN_ONLINE) {
 		let msg: Discord.MessageEmbed = new MessageEmbed()
 			.setColor('#21ed4a')
 			.setTitle('BOT Online')
@@ -47,16 +46,15 @@ client.once('ready', async () => {
 		let loggingCh = client.channels.cache.find(ch => (ch as TextChannel).name == getSettings().BOT_LOG_CHANNEL);
 		(loggingCh! as TextChannel).send(msg);
     } else return;
-    process.exit
 });
 
 /**
  * Commands
- * TODO : Change way of getting commands into using files, instead of objects.
  */
 client.on('message', msg => {
-	if (msg.author.bot) return;
-	let x = client.channels.cache.find(ch => (ch as TextChannel).name == 'command-logs');
+    if (msg.author.bot) return;
+    let logChannel = settings.COMMAND_LOG_CHANNEL;
+	let x = client.channels.cache.find(ch => (ch as TextChannel).name == logChannel);
 	if (msg.content.startsWith(prefix)) {
         // console.log(CommandList)
 		for (var cmd of CommandList) {
@@ -72,7 +70,7 @@ client.on('message', msg => {
 			}
 		}
 
-		if (cmdRun! !== cmd!.prefix && !msg.author.bot) {
+		if (cmdRun! !== cmd!.prefix) {
 			let closeTo = cmdNotFound(CommandList, msg.content);
 			let sryEmbed = new MessageEmbed()
 				.setColor('#eb4034')
@@ -109,7 +107,8 @@ client.on('message', msg => {
  */
 client.on('guildMemberAdd', member => {
 	try {
-		const channel = member.guild.channels.cache.find(ch => ch.name === 'introductions');
+        let joinLeaveCh = settings.JOIN_LEAVE_CHANNEL;
+		const channel = member.guild.channels.cache.find(ch => ch.name === joinLeaveCh);
 
 		let welcomeText = new MessageEmbed()
 			.setColor('#f54269')
@@ -124,7 +123,7 @@ client.on('guildMemberAdd', member => {
 				{
 					name: 'About me!!',
 					value:
-						"I'm a just a bot🤖 beep boop. You can get my attention with the prefix `!`. For a list of commands, use the `!commands` command."
+						`I'm a just a bot🤖 beep boop. You can get my attention with the prefix \`${prefix}\`. For a list of commands, use the \`${prefix}commands\` command.`
 				},
 				{
 					name: 'Introduce Yourself',
@@ -150,7 +149,7 @@ client.on('guildMemberAdd', member => {
 				}
 			);
 		if (channel) return (channel as TextChannel).send(welcomeText);
-		if (!channel) throw `Channel [${getSettings().JOIN_LEAVE_CHANNEL}] is not found`;
+		if (!channel) throw `Channel [${settings.JOIN_LEAVE_CHANNEL}] is not found`;
 
 		member.send(rules);
 	} catch (err) {
@@ -162,7 +161,7 @@ client.on('guildMemberAdd', member => {
  * Everytime a role is updated/changed in anyway,
  * it will update necessary information for the database
  */
-client.on('roleUpdate', (old, updated) => {
+client.on('roleUpdate', (_old, updated) => {
 	try {
 		let Role = mongoose.model('Data', roleSchema, updated.guild.name);
 
@@ -237,13 +236,13 @@ function setAllCommands() {
 				Role.findOne({ prefix: file.prefix }, (err: any, data: CommandsType) => {
 					// If the command is not in the database yet
 					if (err || !data) {
-						const newCmd = new Role({
+						const NEW_COMMAND = new Role({
 							prefix: file.prefix,
 							amountCalled: 0
 						});
 
-						newCmd.save((err: any) => {
-							if (err) console.log(err);
+						NEW_COMMAND.save((err: any) => {
+							if (err) throw new Error(err);
 						});
 					} else return;
 				});
@@ -265,13 +264,13 @@ export async function updateReadme() {
     | :-: | :-: |
     ${CommandList.map(command => '| ' + command.prefix + ' | ' + command.desc + ' |').join('\n')}
 
-    ## Dependencies
+    ##
     `
     await import('fs').then(async fs => {
 
         let data = fs.readFileSync('README.md', 'utf-8')
 
-        let results = data.replace(/## Commands Available.*## Dependencies/gs, tableData);
+        let results = data.replace(/## Commands Available[^#]##/gs, tableData);
 
         fs.writeFileSync('README.md', results, 'utf-8')
 
@@ -287,22 +286,3 @@ export async function updateReadme() {
  */
 export { roleSchema, commandSchema, getAllRoles };
 
-/*
-guild.roles.cache.forEach(role => {
-		Role.findOne({roleId: role.id}, (err, data) => {
-			if(err || !data) {
-				const newRole = new Role({
-					serverName: guild,
-					roleName  : roleName,
-					roleId    : roleId,
-					desc      : description
-				});
-
-				newRole.save(err => {
-					if (err) return console.log(err);
-				});
-
-				console.log("Roles added");
-			} else return;
-		});})
-*/

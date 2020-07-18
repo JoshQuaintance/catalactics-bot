@@ -37,6 +37,7 @@ client.once('ready', async () => {
     const startTime: string = wakeUpTime();
     console.log(color.red(`Logged in as ${client.user!.tag}`));
     cli.log(color.red('Testing'))
+    process.stdout.write(color.red('Text'), (err) => {if (err) console.error(err)});
 
 	if (settings.LOG_WHEN_ONLINE) {
 		let msg: Discord.MessageEmbed = new MessageEmbed()

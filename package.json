@@ -8,6 +8,7 @@
 	"scripts": {
 		"start": "node ./dist/index.js",
 		"dev": "nodemon ./dist/index.js",
+		"preupdate-readme": "npm i typescript ts-node",
 		"update-readme": "ts-node ./src/readmeScript.ts",
 		"test": "jest --passWithNoTests",
 		"build": "tsc",
@@ -20,6 +21,7 @@
 	"keywords": [],
 	"license": "MIT",
 	"dependencies": {
+		"chalk": "^4.1.0",
 		"ci": "^1.0.0",
 		"common-tags": "^1.8.0",
 		"discord.js": "^12.2.0",

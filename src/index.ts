@@ -4,6 +4,7 @@ import cmdNotFound from './utils/notFound';
 import wakeUpTime from './utils/getWakeTime';
 import { RolesDbInt,CommandsType } from './utils/interfaces';
 import mongoose from 'mongoose';
+import chalk from 'chalk';
 
 let CommandList: CommandsType[] = [];
 const client = new Client();
@@ -33,7 +34,7 @@ client.once('ready', async () => {
     getAllRoles();
     setAllCommands();
     const startTime: string = wakeUpTime();
-    console.log(`Logged in as ${client.user!.tag}`);
+    console.log(chalk.black.bold.bgGreen(`Logged in as ${client.user!.tag}`));
 
 	if (settings.LOG_WHEN_ONLINE) {
 		let msg: Discord.MessageEmbed = new MessageEmbed()

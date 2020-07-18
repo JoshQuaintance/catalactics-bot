@@ -29,12 +29,14 @@ client.login(token);
  * When the bot is ready (Up), it will log some active embed
  */
 import color from '@heroku-cli/color';
+import cli from 'cli-ux';
 client.once('ready', async () => {
     await getAllCommands.then(COMMANDS => CommandList = (COMMANDS as CommandsType[]));
     getAllRoles();
     setAllCommands();
     const startTime: string = wakeUpTime();
     console.log(color.red(`Logged in as ${client.user!.tag}`));
+    cli.log(color.red('Testing'))
 
 	if (settings.LOG_WHEN_ONLINE) {
 		let msg: Discord.MessageEmbed = new MessageEmbed()

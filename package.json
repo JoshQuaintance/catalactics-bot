@@ -8,7 +8,6 @@
 	"scripts": {
 		"start": "node ./dist/index.js",
 		"dev": "nodemon ./dist/index.js",
-		"preupdate-readme": "npm i typescript ts-node",
 		"update-readme": "ts-node ./src/readmeScript.ts",
 		"test": "jest --passWithNoTests",
 		"build": "tsc",
@@ -21,7 +20,6 @@
 	"keywords": [],
 	"license": "MIT",
 	"dependencies": {
-		"chalk": "^4.1.0",
 		"ci": "^1.0.0",
 		"common-tags": "^1.8.0",
 		"discord.js": "^12.2.0",
@@ -32,7 +30,6 @@
 		"mongodb": "^3.5.9",
 		"mongoose": "^5.9.19",
 		"request": "^2.88.2",
-		"ts-node": "^8.10.2",
 		"typescript": "^3.9.7"
 	},
 	"devDependencies": {
@@ -41,9 +38,11 @@
 		"@types/luxon": "^1.24.1",
 		"@types/mongoose": "^5.7.29",
 		"@types/node": "^14.0.14",
+		"chalk": "^4.1.0",
 		"editorconfig": "^0.15.3",
 		"jest": "^26.1.0",
 		"nodemon": "^2.0.4",
-		"ts-jest": "^26.1.2"
+		"ts-jest": "^26.1.2",
+		"ts-node": "^8.10.2"
 	}
 }

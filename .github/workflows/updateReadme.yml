@@ -19,7 +19,7 @@ jobs:
       - name: Clean Install Dependencies
         run: npm ci
 
-      - name: Run Script (update-readme) and (preupdate-readme)
+      - name: Run Script (update-readme)
         run: npm run update-readme
         env:
           CI: true
@@ -30,7 +30,7 @@ jobs:
         run: |
           git config --local user.email "45566099+JoshuaPelealu@users.noreply.github.com"
           git config --local user.name "Joshua Pelealu"
-          git pull https://github.com/JoshuaPelealu/catalactics-bot-docs.git
+          git pull https://github.com/JoshuaPelealu/catalactics-bot-docs master:dev
           git add README.md
           git commit -m "Auto Update README.md"
       - name: Push changes

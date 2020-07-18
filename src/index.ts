@@ -35,11 +35,6 @@ client.once('ready', async () => {
     setAllCommands();
     const startTime: string = wakeUpTime();
     console.log(color.red(`Logged in as ${client.user!.tag}`));
-    color.red('Hello World')
-    //@ts-ignore
-    this.log(`Testing this app ${color.app('Discord')}`);
-    //@ts-ignore
-    this.log(`Testing heroku cli colors ${color.red('this is red')}`)
 
 	if (settings.LOG_WHEN_ONLINE) {
 		let msg: Discord.MessageEmbed = new MessageEmbed()

@@ -35,6 +35,7 @@ client.once('ready', async () => {
     setAllCommands();
     const startTime: string = wakeUpTime();
     console.log(chalk.black.bold.bgGreen(`Logged in as ${client.user!.tag}`));
+    console.log('Listening for commands now');
 
 	if (settings.LOG_WHEN_ONLINE) {
 		let msg: Discord.MessageEmbed = new MessageEmbed()

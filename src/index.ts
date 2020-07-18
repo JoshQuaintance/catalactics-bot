@@ -28,14 +28,16 @@ client.login(token);
 /**
  * When the bot is ready (Up), it will log some active embed
  */
-import COLOR from '@heroku-cli/color';
+import color from '@heroku-cli/color';
 client.once('ready', async () => {
     await getAllCommands.then(COMMANDS => CommandList = (COMMANDS as CommandsType[]));
     getAllRoles();
     setAllCommands();
     const startTime: string = wakeUpTime();
-    console.log(COLOR.bgBlue.black(`Logged in as ${client.user!.tag}`));
-    console.log('Listening for commands now');
+    console.log(color.red(`Logged in as ${client.user!.tag}`));
+    color.red('Hello World')
+    this.log(`Testing this app ${color.app('Discord')}`);
+    this.log(`Testing heroku cli colors ${color.red('this is red')}`)
 
 	if (settings.LOG_WHEN_ONLINE) {
 		let msg: Discord.MessageEmbed = new MessageEmbed()

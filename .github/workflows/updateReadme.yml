@@ -19,13 +19,7 @@ jobs:
       - name: Clean Install Dependencies
         run: npm ci
 
-      - name: Install Typescript
-        run: npm i typescript
-
-      - name: Install ts-node
-        run: npm i ts-node
-
-      - name: Run Script (update-readme)
+      - name: Run Script (update-readme) and (preupdate-readme)
         run: npm run update-readme
         env:
           CI: true
@@ -41,7 +35,7 @@ jobs:
       - name: Push changes
         uses: ad-m/github-push-action@master
         with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
           repository: 'JoshuaPelealu/catalactics-bot-docs'
+          github_token: ${{ secrets.ACCESS_TOKEN }}
 
 

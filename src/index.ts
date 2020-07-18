@@ -28,13 +28,13 @@ client.login(token);
 /**
  * When the bot is ready (Up), it will log some active embed
  */
-
+import COLOR from '@heroku-cli/color';
 client.once('ready', async () => {
     await getAllCommands.then(COMMANDS => CommandList = (COMMANDS as CommandsType[]));
     getAllRoles();
     setAllCommands();
     const startTime: string = wakeUpTime();
-    console.log(chalk.black.bold.bgGreen(`Logged in as ${client.user!.tag}`));
+    console.log(COLOR.bgBlue.black(`Logged in as ${client.user!.tag}`));
     console.log('Listening for commands now');
 
 	if (settings.LOG_WHEN_ONLINE) {

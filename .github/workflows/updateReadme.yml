@@ -30,7 +30,7 @@ jobs:
         run: |
           git config --local user.email "45566099+JoshuaPelealu@users.noreply.github.com"
           git config --local user.name "Joshua Pelealu"
-          git pull --ff-only https://github.com/JoshuaPelealu/catalactics-bot-docs master:dev
+          git pull --ff-only https://github.com/JoshuaPelealu/catalactics-bot-docs master:dev --allow-unrelated-histories
           git add README.md
           git commit -m "Auto Update README.md"
       - name: Push changes

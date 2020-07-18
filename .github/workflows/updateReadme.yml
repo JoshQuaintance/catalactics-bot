@@ -19,6 +19,9 @@ jobs:
       - name: Clean Install Dependencies
         run: npm ci
 
+      - name: Pull the repo
+        run: |
+          git pull https://github.com/JoshuaPelealu/catalactics-bot-docs.git
       - name: Run Script (update-readme) and (preupdate-readme)
         run: npm run update-readme
         env:

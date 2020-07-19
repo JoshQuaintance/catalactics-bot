@@ -126,6 +126,8 @@ node index
 That's all. The bot should log an embed with the time it was woken up and account used inside the channel you specified inside the `.env` file with the variable `BOT_LOG_CHANNEL`. The default value is "bot-logs". If you don't have this channel, it will not log it.
 
 ## Commands Available
+| Prefix | Description |
+| :-: | :-: |
 
 ## Dependencies
 

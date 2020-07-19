@@ -25,13 +25,13 @@ jobs:
           CI: true
           DISCORD_TOKEN: ${{ secrets.DISCORD_TOKEN }}
           MONGO_URI: ${{ secrets.MONGO_URI }}
-
+      - name: Change .gitignore to ignore everything except for README
+        run: npm run change-gitignore
       - name: Commit files
         run: |
           git config --local user.email "45566099+JoshuaPelealu@users.noreply.github.com"
           git config --local user.name "Joshua Pelealu"
           git add README.md
-          git status
           git commit -m 'Auto Update README' README.md
       - name: Push changes
         uses: ad-m/github-push-action@master

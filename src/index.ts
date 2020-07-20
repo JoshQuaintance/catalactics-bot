@@ -271,11 +271,11 @@ export async function updateReadme(flags: string[]) {
     `
     await import('fs').then(async fs => {
         const path: string = flags[0] == undefined ? '' : flags[0] + '/';
-        let data = fs.readFileSync(`${path}README.md`, 'utf-8')
-
+        let data = fs.readFileSync(`${path}README.md`, 'utf-8');
+        console.log(data);
         let results = data.replace(/## Commands Available.*## Dependencies/gs, tableData);
 
-        fs.writeFileSync(`${path}README.md`, results, 'utf-8')
+        fs.writeFileSync(`${path}README.md`, results, 'utf-8');
 
     }).catch(err => {
         console.error(err);

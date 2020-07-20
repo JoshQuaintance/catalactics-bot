@@ -20,7 +20,9 @@ jobs:
         run: npm ci
 
       - name: Clone documentation repo
-        run: git clone https://github.com/JoshuaPelealu/catalactics-bot-docs
+        run: |
+          git clone https://github.com/JoshuaPelealu/catalactics-bot-docs
+          ls
 
       - name: Run Script (update-readme)
         run: npm run update-readme catalactics-bot-docs
@@ -30,7 +32,10 @@ jobs:
           MONGO_URI: ${{ secrets.MONGO_URI }}
 
       - name: Change directory to the docs repo dir
-        run: cd ./catalactics-bot-docs
+        run: |
+          cd ./catalactics-bot-docs
+          ls
+          npm run check-git
 
       - name: Commit files
         run: |

@@ -29,6 +29,11 @@ jobs:
           DISCORD_TOKEN: ${{ secrets.DISCORD_TOKEN }}
           MONGO_URI: ${{ secrets.MONGO_URI }}
 
+      - name: testing
+        uses: './script.sh'
+        with:
+          test_message: "This is just a test"
+
       - name: Commit files
         run: |
           cd ./catalactics-bot-docs
@@ -38,11 +43,6 @@ jobs:
 
           git add .
           git commit -am 'Auto Update README'
-
-      - name: testing
-        uses: './script.sh'
-        with:
-          test_message: "This is just a test"
 
       - name: Push changes
         uses: ad-m/github-push-action@master

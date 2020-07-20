@@ -258,7 +258,7 @@ function setAllCommands() {
 
 import { stripIndents } from 'common-tags';
 
-export async function updateReadme() {
+export async function updateReadme(flags: string[]) {
     await client.login(token);
     await getAllCommands.then(COMMANDS => CommandList = (COMMANDS as CommandsType[]));
     let tableData = stripIndents`
@@ -270,13 +270,16 @@ export async function updateReadme() {
     ## Dependencies
     `
     await import('fs').then(async fs => {
-
-        let data = fs.readFileSync('README.md', 'utf-8')
+        const path: string = flags[0] == undefined ? '' : flags[0] + '/';
+        let data = fs.readFileSync(`${path}README.md`, 'utf-8')
 
         let results = data.replace(/## Commands Available.*## Dependencies/gs, tableData);
 
-        fs.writeFileSync('README.md', results, 'utf-8')
+        fs.writeFileSync(`${path}README.md`, results, 'utf-8')
 
+    }).catch(err => {
+        console.error(err);
+        process.exit();
     });
 
     console.log('Job Done, Exiting now...');

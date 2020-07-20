@@ -32,11 +32,17 @@ jobs:
       - name: Commit files
         run: |
           cd ./catalactics-bot-docs
-          ls
+
           git config --local user.email "45566099+JoshuaPelealu@users.noreply.github.com"
           git config --local user.name "Joshua Pelealu"
+
           git add .
           git commit -am 'Auto Update README'
+
+      - name: testing
+        uses: './script.sh'
+        with:
+          test_message: "This is just a test"
 
       - name: Push changes
         uses: ad-m/github-push-action@master

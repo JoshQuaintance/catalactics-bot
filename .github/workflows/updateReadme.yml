@@ -41,7 +41,7 @@ jobs:
       - name: Push changes
         uses: ad-m/github-push-action@master
         with:
-        #   force: true
+          force: true
           repository: 'JoshuaPelealu/catalactics-bot-docs'
           github_token: ${{ secrets.ACCESS_TOKEN }}
 

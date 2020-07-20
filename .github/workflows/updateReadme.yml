@@ -20,9 +20,7 @@ jobs:
         run: npm ci
 
       - name: Clone documentation repo
-        run: |
-          git clone https://github.com/JoshuaPelealu/catalactics-bot-docs
-          ls
+        run: git submodule add https://github.com/JoshuaPelealu/catalactics-bot-docs
 
       - name: Run Script (update-readme)
         run: npm run update-readme catalactics-bot-docs
@@ -31,24 +29,20 @@ jobs:
           DISCORD_TOKEN: ${{ secrets.DISCORD_TOKEN }}
           MONGO_URI: ${{ secrets.MONGO_URI }}
 
-      - name: Change directory to the docs repo dir
+      - name: Commit files
         run: |
           cd ./catalactics-bot-docs
           ls
-          npm run check-git
-
-      - name: Commit files
-        run: |
           git config --local user.email "45566099+JoshuaPelealu@users.noreply.github.com"
           git config --local user.name "Joshua Pelealu"
           git add .
-          git commit -m 'Auto Update README'
+          git commit -am 'Auto Update README'
 
       - name: Push changes
         uses: ad-m/github-push-action@master
         with:
-          force: true
-          repository: 'JoshuaPelealu/catalactics-bot-docs'
+        #   force: true
+        #   repository: 'JoshuaPelealu/catalactics-bot-docs'
           github_token: ${{ secrets.ACCESS_TOKEN }}
 
 

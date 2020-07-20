@@ -1,3 +1,3 @@
 #!/bin/sh
-
-echo ${TEST_MESSAGE:-"hello there"}
+TEST_MESSAGE=${INPUT_TEST_MESSAGE:-"hello there"}
+echo ${TEST_MESSAGE}

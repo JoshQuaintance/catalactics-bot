@@ -30,7 +30,7 @@ jobs:
           MONGO_URI: ${{ secrets.MONGO_URI }}
 
       - name: testing
-        uses: './script.sh'
+        uses: './'
         with:
           test_message: "This is just a test"
 

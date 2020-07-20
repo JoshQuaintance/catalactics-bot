@@ -1,0 +1,8 @@
+name: 'Testing'
+description: 'Just a simple test'
+author: 'Catalactics'
+inputs:
+
+runs:
+  using: 'node12'
+  main: 'start.js'

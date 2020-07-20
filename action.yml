@@ -2,6 +2,10 @@ name: 'Testing'
 description: 'Just a simple test'
 author: 'Catalactics'
 inputs:
+  test_message:
+    description: 'Just a test'
+    required: false
+    default: 'Hello world'
 
 runs:
   using: 'node12'

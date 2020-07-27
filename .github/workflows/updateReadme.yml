@@ -29,11 +29,6 @@ jobs:
           DISCORD_TOKEN: ${{ secrets.DISCORD_TOKEN }}
           MONGO_URI: ${{ secrets.MONGO_URI }}
 
-      - name: testing
-        uses: './'
-        with:
-          test_message: "This is just a test"
-
       - name: Commit files
         run: |
           cd ./catalactics-bot-docs

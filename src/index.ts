@@ -28,15 +28,12 @@ client.login(token);
 /**
  * When the bot is ready (Up), it will log some active embed
  */
-import color from '@heroku-cli/color';
-import cli from 'cli-ux';
 client.once('ready', async () => {
     await getAllCommands.then(COMMANDS => CommandList = (COMMANDS as CommandsType[]));
     getAllRoles();
     setAllCommands();
     const startTime: string = wakeUpTime();
-    console.log(color.red(`Logged in as ${client.user!.tag}`));
-    cli.log('string', color.red('Testing'))
+    console.log(chalk.green(`Logged in as ${client.user!.tag}`));
 
 	if (settings.LOG_WHEN_ONLINE) {
 		let msg: Discord.MessageEmbed = new MessageEmbed()
@@ -59,7 +56,8 @@ client.on('message', msg => {
     let logChannel = settings.COMMAND_LOG_CHANNEL;
 	let x = client.channels.cache.find(ch => (ch as TextChannel).name == logChannel);
 	if (msg.content.startsWith(prefix)) {
-        // console.log(CommandList)
+        let commandIsFound = false;
+
 		for (var cmd of CommandList) {
 			var msgArray = msg.content.split(' ');
 
@@ -68,12 +66,21 @@ client.on('message', msg => {
 
 			if (cmdRun == cmd.prefix) {
 				cmd.command(msg, { client, settings, CommandList});
-				logCommand(msg, cmd, x as Discord.Channel);
+                logCommand(msg, cmd, x as Discord.Channel);
+                commandIsFound = true
 				break;
-			}
-		}
+			} else if (cmd.alias && cmd.alias.length > 0) {
+                cmd.alias?.forEach(other => {
+                    if (cmdRun == other) {
+                        cmd.command(msg, { client, settings, CommandList }, other);
+                        logCommand(msg, cmd, x as Discord.Channel);
+                        return commandIsFound = true;
+                    };
+                });
+            };
+        };
 
-		if (cmdRun! !== cmd!.prefix) {
+		if (cmdRun! !== cmd!.prefix && !commandIsFound) {
 			let closeTo = cmdNotFound(CommandList, msg.content);
 			let sryEmbed = new MessageEmbed()
 				.setColor('#eb4034')
@@ -126,7 +133,7 @@ client.on('guildMemberAdd', member => {
 				{
 					name: 'About me!!',
 					value:
-						`I'm a just a bot🤖 beep boop. You can get my attention with the prefix \`${prefix}\`. For a list of commands, use the \`${prefix}commands\` command.`
+						`I'm a just a bot🤖 beep boop. You can get my attention with the prefix \`${prefix}\`. For a list of commands, use the \`${prefix}help\` command.`
 				},
 				{
 					name: 'Introduce Yourself',
@@ -230,10 +237,12 @@ function getAllRoles(): void {
 function setAllCommands() {
 	try {
 		CommandList.forEach(file => {
+            // console.log(file);
 			// Get all the guilds the bot is in, and for every guild it's on
 			client.guilds.cache.forEach(guild => {
 				// Get collection
 				const Role = mongoose.model('Commands', commandSchema, guild.name);
+
 
 				// Find the specific command using the prefix.
 				Role.findOne({ prefix: file.prefix }, (err: any, data: CommandsType) => {

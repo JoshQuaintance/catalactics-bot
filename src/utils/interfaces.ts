@@ -27,7 +27,9 @@ export interface CommandsType
     examples?: stringElse;
     desc: string;
     category: string;
-    command: (msg: Message, args: CommandsArgs) => void;
+    alias?: string[];
+    //aliasUsed == gives a boolean saying if it's run aliasUsed
+    command: (msg: Message, args: CommandsArgs, aliasUsed?: string) => void;
 }
 
 /* **** */

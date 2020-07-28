@@ -30,7 +30,7 @@
 		"luxon": "^1.24.1",
 		"moment": "^2.27.0",
 		"mongodb": "^3.5.9",
-		"mongoose": "^5.9.25",
+		"mongoose": "^5.9.26",
 		"request": "^2.88.2",
 		"typescript": "^3.9.7"
 	},

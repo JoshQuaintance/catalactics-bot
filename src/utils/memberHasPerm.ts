@@ -5,12 +5,12 @@ import { Message, PermissionString } from 'discord.js';
  * @param {Message} msg The msg object
  * @param {PermissionString} perm Permission String.
  */
-export function memberHasPerm(msg: Message, perm: PermissionString) {
-	if (msg.author.bot) return;
-    let member = msg.member;
-    if (member == null) throw 'User Member Cannot Be Found';
-	if (member.hasPermission(perm)) return true;
-	else return false;
+export function memberHasPerm(msg: Message, perm: PermissionString): boolean | undefined {
+  if (msg.author.bot) return;
+  const member = msg.member;
+  if (member == null) throw 'User Member Cannot Be Found';
+  if (member.hasPermission(perm)) return true;
+  else return false;
 }
 
 //This function may be useful later

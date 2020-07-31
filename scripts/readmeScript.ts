@@ -5,5 +5,5 @@ const flags = process.argv.slice(2);
 
 
 (async function hello() {
-    await updateReadme(flags);
+  await updateReadme(flags);
 })();

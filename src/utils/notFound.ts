@@ -1,6 +1,5 @@
 import { getSettings } from './get-settings';
-// import { CommandsType } from './cmd-def.int.js';
-import { Message } from 'discord.js';
+import { CommandsType } from './interfaces';
 const PREFIX = getSettings().PREFIX;
 
 /**
@@ -10,21 +9,16 @@ const PREFIX = getSettings().PREFIX;
  *
  * @returns An array of all the prefixes that is close to the message
  */
-export default function cmdNotFound(command: any[], msg: string) {
+export default function cmdNotFound(command: CommandsType[], msg: string): string {
+  // Get first letter of the command string
+  const firstLetter = msg.toString().split(' ')[0][1];
 
-    const firstLetter = msg.toString().split(" ")[0][1];
-    let regex = new RegExp(`^${firstLetter}`, "g");
-    let close: string[] = [];
-    let decided;
-    command.forEach(cmd => {
-        let prefix = cmd.prefix;
-        if(regex.test(prefix) == true) {
-            close.push(`${PREFIX}${prefix}`)
-        }
-    })
+  // Filter the command list for commands that has prefix
+  // that starts with the firstLetter
+  const closeTo = command.filter(cmd => cmd.prefix.startsWith(firstLetter));
 
-    decided = close.join(", ");
-
-    return decided;
+  // Map the main PREFIX with the command's prefix and join them using commas
+  // and return;
+  return closeTo.map(cmd => PREFIX + cmd.prefix).join(', ');
 }
 

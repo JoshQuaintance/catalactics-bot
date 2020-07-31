@@ -32,7 +32,7 @@ client.once('ready', async () => {
   await getAllCommands.then(COMMANDS => CommandList = (COMMANDS as CommandsType[]));
   getAllRoles();
   setAllCommands();
-  const startTime: string = wakeUpTime();
+  const startTime: string | undefined = wakeUpTime();
   console.log(chalk.green(`Logged in as ${client.user?.tag}`));
 
   if (settings.LOG_WHEN_ONLINE) {

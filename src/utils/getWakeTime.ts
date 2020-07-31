@@ -4,7 +4,7 @@ import { DateTime } from 'luxon';
  *
  * @returns String with time and time zone
  */
-export default function getWakeTime(): string {
+export default function getWakeTime(): string | undefined {
   const dt = DateTime.local();
   const formatted = dt.toLocaleString(DateTime.TIME_WITH_SHORT_OFFSET);
 

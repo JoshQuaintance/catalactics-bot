@@ -1,4 +1,4 @@
-# Catalactics Bot
+# Catalactics-Bot
 
 ![Checks](https://github.com/JoshuaPelealu/catalactics-bot/workflows/Checks/badge.svg?branch=master&event=push)![Deploy to Heroku](https://github.com/JoshuaPelealu/catalactics-bot/workflows/Deploy%20to%20Heroku/badge.svg?branch=master)
 

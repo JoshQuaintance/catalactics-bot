@@ -44,7 +44,7 @@
 		"@typescript-eslint/parser": "^3.10.1",
 		"chalk": "^4.1.0",
 		"editorconfig": "^0.15.3",
-		"eslint": "^7.5.0",
+		"eslint": "^7.18.0",
 		"jest": "^26.4.2",
 		"node": "^14.5.0",
 		"nodemon": "^2.0.4",

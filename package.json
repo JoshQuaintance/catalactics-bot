@@ -29,7 +29,7 @@
 		"git-repo-info": "^2.1.1",
 		"luxon": "^1.24.1",
 		"moment": "^2.27.0",
-		"mongodb": "^3.6.0",
+		"mongodb": "^3.6.4",
 		"mongoose": "^5.10.5",
 		"request": "^2.88.2",
 		"typescript": "^3.9.7"
